@@ -2,7 +2,7 @@
 
 参考「SKYWINGS 旅行落地页」截图 1:1 仿结构，内容换成 **花的观赏**：
 圆角大图英雄区 + 左侧竖排步骤 + 右下 Know More 浮卡 → Follow / 合作方灰字墙 →
-Popular Destination 轮播（图片 + 标题 + 地点 + 蓝色价格胶囊）→
+Popular Destination 轮播（图片 + 标题 + 地点 + 蓝色星级评分胶囊）→
 Journey To The Blooms Made Simple! 三张步骤卡（中间蓝卡抬起）→
 Unleash Wanderlust 图文 + 20% OFF 促销条 → 页脚。
 
@@ -37,7 +37,7 @@ npm run shots     # 用本机 Edge/Chrome + CDP 出 5 张页面截图 + 3 张交
 | 左侧 ①②③ 竖排步骤点 | 同位置，白底激活态 |
 | 右下 Know More 浮卡（三个缩略图 + Awesome Places） | 同位置，Blooming Places / Discover The World One Petal At A Time. |
 | Follow + airbnb / Booking.com / trivago / Expedia | Follow + Kew Gardens / RHS / teamLab / Bloom & Wild |
-| Popular Destination 三张卡（Forest Wild Life、NRT, Indonesia、$8.5） | 6 张卡轮播（White Silk Gardenia、Kyoto, Japan、$86…） |
+| Popular Destination 三张卡（Forest Wild Life、NRT, Indonesia、★ 4.5） | 6 张卡轮播（White Silk Gardenia、Kyoto, Japan、★ 4.9…） |
 | Journey To The Skies Made Simple! 三步骤卡 | Journey To The Blooms Made Simple!，左灰 / 中蓝 / 右灰 |
 | UNLEASH WANDERLUST WITH SKYWINGS + 20% OFF + 蓝色 CTA | 同结构，文案换成 Petalwings，图片换成花 |
 | 飞机 / 海岛图 | 提供的百合、山茶、压花照片（含 3 张 4:5 卡片裁切） |

@@ -103,8 +103,10 @@ test('目的地轮播与灯箱的结构完整（6 张卡片）', () => {
   const triggers = html.match(/data-lightbox(?=[ >])/g) || [];
   assert.equal(triggers.length, 6, `灯箱触发器数量为 ${triggers.length}`);
 
-  const prices = html.match(/class="price-pill"/g) || [];
-  assert.equal(prices.length, 6);
+  const ratings = html.match(/class="rating-pill"/g) || [];
+  assert.equal(ratings.length, 6, `评分胶囊数量为 ${ratings.length}`);
+  assert.equal((html.match(/aria-label="Rated \d\.\d out of 5"/g) || []).length, 6);
+  assert.match(html, /id="i-star"/, '缺少星标图标');
 
   assert.match(html, /data-carousel-viewport/);
   assert.match(html, /data-carousel-track/);

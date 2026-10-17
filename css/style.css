@@ -361,8 +361,8 @@ h3 {
   color: #fff;
 }
 
-/* 价格胶囊 */
-.price-pill {
+/* 评分胶囊：参考图卡片右下角的蓝色小胶囊，是星级评分不是价格 */
+.rating-pill {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -376,7 +376,7 @@ h3 {
   white-space: nowrap;
 }
 
-.price-pill .icon {
+.rating-pill .icon {
   width: 12px;
   height: 12px;
 }
