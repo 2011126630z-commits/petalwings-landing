@@ -10,6 +10,7 @@ const root = join(here, '..');
 const htmlPath = join(root, 'index.html');
 const cssPath = join(root, 'css/style.css');
 const jsPath = join(root, 'js/main.js');
+const bootPath = join(root, 'js/boot.js');
 
 const html = readFileSync(htmlPath, 'utf8');
 const css = readFileSync(cssPath, 'utf8');
@@ -148,10 +149,12 @@ test('CSS 语法结构完整，且包含关键降级规则', () => {
 });
 
 test('JS 语法正确（node --check）', () => {
-  const result = spawnSync(process.execPath, ['--check', jsPath], {
-    encoding: 'utf8',
-  });
-  assert.equal(result.status, 0, result.stderr || 'JS 语法检查失败');
+  for (const file of [jsPath, bootPath]) {
+    const result = spawnSync(process.execPath, ['--check', file], {
+      encoding: 'utf8',
+    });
+    assert.equal(result.status, 0, result.stderr || `JS 语法检查失败：${file}`);
+  }
 });
 
 test('交付内容不依赖外部网络请求', () => {

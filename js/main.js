@@ -11,7 +11,6 @@
 (function () {
   'use strict';
 
-  
   var root = document.documentElement;
   var qs = function (selector, scope) {
     return (scope || document).querySelector(selector);
@@ -31,7 +30,7 @@
   var hoverCapable = window.matchMedia(
     '(hover: hover) and (pointer: fine)'
   ).matches;
-  
+
   /* 地址栏带 no-anim=1 时关闭动效，方便静态预览和检查 */
   var skipMotion = root.classList.contains('no-anim') || reduceMotion;
 
@@ -44,7 +43,6 @@
     });
   }
 
-  
   /**
    * 弹层焦点陷阱：Tab / Shift+Tab 只在弹层内部循环。
    * 容器本身获得焦点时把焦点送进内容；焦点在最后一个元素上时回到第一个。
@@ -73,7 +71,6 @@
     return value < 10 ? '0' + value : String(value);
   }
 
-  
   /* ---------- 01 页头滚动状态 ---------- */
   (function setupHeader() {
     var header = qs('[data-header]');
@@ -85,7 +82,6 @@
     update();
   })();
 
-  
   /* ---------- 02 移动端菜单 ---------- */
   (function setupMenu() {
     var menu = qs('[data-menu]');
@@ -115,7 +111,7 @@
       toggle.setAttribute('aria-label', 'Close menu');
       document.body.classList.add('is-locked', 'menu-open');
       document.addEventListener('keydown', onKeydown);
-      
+
       /* 焦点先放在面板本身，避免一打开菜单就给品牌名描上焦点框 */
       window.setTimeout(function () {
         panel.focus();
@@ -143,13 +139,11 @@
       el.addEventListener('click', closeMenu);
     });
 
-    
     qsa('[data-menu-link]', menu).forEach(function (link) {
       link.addEventListener('click', closeMenu);
     });
   })();
 
-  
   /* ---------- 03 滚动显现 ---------- */
   (function setupReveal() {
     var targets = qsa('.reveal');
@@ -162,7 +156,6 @@
       return;
     }
 
-    
     var groups = new Map();
     targets.forEach(function (el) {
       var parent = el.parentElement;
@@ -181,7 +174,7 @@
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
           entry.target.classList.add('is-in');
-          
+
           /* 只触发一次，来回滚动不会重播 */
           observer.unobserve(entry.target);
         });
@@ -193,7 +186,6 @@
     });
   })();
 
-  
   /* ---------- 04 首屏视差 ---------- */
   (function setupHeroParallax() {
     if (skipMotion || !hoverCapable) return;
@@ -208,7 +200,6 @@
     var currentY = 0;
     var running = false;
 
-    
     /* 只改 transform，不触发重排；鼠标位置用缓动逐帧逼近，手感更柔和 */
     var apply = function () {
       var desktop = window.innerWidth > 1024;
@@ -274,7 +265,6 @@
     window.addEventListener('resize', request);
   })();
 
-  
   /* ---------- 05 目的地轮播 ---------- */
   (function setupCarousel() {
     var viewport = qs('[data-carousel-viewport]');
@@ -289,7 +279,6 @@
       return Math.max(0, viewport.scrollWidth - viewport.clientWidth);
     }
 
-    
     /* 按钮禁用状态根据实际滚动位置计算，键盘和脚本滚动也能同步 */
     function sync() {
       var max = maxScroll();
@@ -311,7 +300,6 @@
     window.addEventListener('resize', requestSync);
     sync();
 
-    
     /* 翻页步长 = 一张卡片宽 + 间距，直接从页面量，改版式不用动脚本 */
     function stepSize() {
       var card = track.querySelector('.dest-card');
@@ -331,7 +319,6 @@
       });
     }
 
-    
     /* 拖拽逻辑：
        - 移动不超过 6px 不算拖拽，仍然可以正常点击卡片；
        - 超过阈值才接管 scrollLeft；
@@ -370,7 +357,7 @@
           try {
             viewport.setPointerCapture(activeId);
           } catch (error) {
-            
+
           }
         }
         viewport.scrollLeft = startScroll - delta;
@@ -387,7 +374,7 @@
         try {
           viewport.releasePointerCapture(activeId);
         } catch (error) {
-          
+
         }
       }
       activeId = null;
@@ -415,7 +402,6 @@
     );
   })();
 
-  
   /* ---------- 06 图片灯箱 ---------- */
   (function setupLightbox() {
     var lightbox = qs('#lightbox');
@@ -457,7 +443,7 @@
       imgEl.alt = item.alt;
       captionEl.textContent = item.caption;
       countEl.textContent = padTwo(index + 1) + ' / ' + padTwo(items.length);
-      
+
       /* 预加载前后两张，按方向键翻页时不会闪白 */
       preload(items[(index + 1) % items.length].src);
       preload(items[(index - 1 + items.length) % items.length].src);
@@ -493,7 +479,7 @@
       lightbox.hidden = false;
       lightbox.setAttribute('aria-hidden', 'false');
       document.body.classList.add('is-locked');
-      
+
       /* 先移除 hidden，下一帧再加 is-open，透明度过渡才会生效 */
       raf(function () {
         lightbox.classList.add('is-open');
@@ -512,7 +498,7 @@
       lightbox.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('is-locked');
       document.removeEventListener('keydown', onKeydown);
-      
+
       /* 380ms 和 CSS 里 .lightbox 的过渡时间保持一致 */
       closeTimer = window.setTimeout(function () {
         lightbox.hidden = true;
@@ -546,10 +532,9 @@
     }
   })();
 
-  
   /* ---------- 07 导航高亮 / 回到顶部 / 年份 ---------- */
   (function setupNavSpy() {
-    
+
     if (root.classList.contains('no-anim')) return;
     var links = qsa('.nav__link');
     if (!links.length || !('IntersectionObserver' in window)) return;

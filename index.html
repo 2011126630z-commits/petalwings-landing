@@ -15,31 +15,13 @@
   <link rel="preload" as="image" href="assets/img/hero-lily.jpg" fetchpriority="high">
   <link rel="stylesheet" href="css/style.css">
 
-  
-  
-  <!-- 首屏渲染前先标记 JS 是否可用，避免标题入场动画闪一下 -->
-  <script>
-    (function () {
-      var root = document.documentElement;
-      root.classList.remove('no-js');
-      root.classList.add('js');
-      var params = new URLSearchParams(window.location.search);
-      if (params.get('no-anim') === '1') root.classList.add('no-anim');
-      if (params.get('shot') === '1') {
-        root.classList.add('is-shot');
-        document.addEventListener('DOMContentLoaded', function () {
-          var lazy = document.querySelectorAll('img[loading="lazy"]');
-          for (var i = 0; i < lazy.length; i++) lazy[i].setAttribute('loading', 'eager');
-        });
-      }
-    })();
-  </script>
+  <!-- 首屏初始化放在 boot.js：需要在页面渲染前执行，所以仍然同步加载在 head 里 -->
+  <script src="js/boot.js"></script>
 </head>
 <body>
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  
   
   <!-- 图标雪碧图：箭头、步骤、社交和星标都定义在这里，用 <use> 复用，避免重复路径 -->
   <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +91,6 @@
   </svg>
 
   
-  
   <!-- 页头：Logo / 导航 / Book Trip 按钮 -->
   <header class="site-header" data-header>
     <div class="container header__inner">
@@ -138,7 +119,6 @@
     </div>
   </header>
 
-  
   
   <!-- 移动端抽屉菜单：点遮罩、按 ESC 或点导航都会关闭 -->
   <div class="menu" id="mobile-menu" aria-hidden="true" data-menu>
@@ -170,7 +150,6 @@
   <main id="main">
 
     
-    
     <!-- ============================================================
          首屏：圆角大图卡片 + 左侧文案 / 步骤指示，右下角压一张 Know More 浮卡。
          图片和遮罩各自带圆角，容器才能保留 overflow: visible，让浮卡压出边缘。
@@ -178,7 +157,7 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container">
         <div class="hero__card">
-          
+
           <img class="hero__img" src="assets/img/hero-lily.jpg" alt="A white lily in bloom with pale green buds against a soft white backdrop." width="1922" height="1080" fetchpriority="high" decoding="async">
           <div class="hero__shade" aria-hidden="true"></div>
 
@@ -209,7 +188,6 @@
           </div>
 
           
-          
           <!-- 白色浮卡：桌面端绝对定位在右下角，窄屏时改为普通文档流 -->
           <aside class="know-card" aria-label="Featured gardens">
             <a class="know-card__head" href="#destinations">
@@ -232,7 +210,6 @@
       </div>
     </section>
 
-    
     
     <!-- 合作品牌墙 -->
     <section class="proof" aria-label="Partners and social links">
@@ -263,7 +240,6 @@
     </section>
 
     
-    
     <!-- ============================================================
          目的地横向轮播：桌面一行三张，平板两张，手机一张约占 78vw 宽度。
          图片外层带 data-lightbox：禁用 JS 时打开原图，启用 JS 时打开页面内灯箱。
@@ -285,10 +261,9 @@
           </div>
         </header>
 
-        
         <div class="destinations__viewport" data-carousel-viewport>
           <div class="destinations__track" data-carousel-track>
-            
+
             <!-- 每张卡的图片外层是一个带 data-lightbox 的链接 -->
             <article class="dest-card reveal">
               <a class="dest-card__media" href="assets/img/flower-white-silk.jpg" data-lightbox data-caption="White Silk Gardenia — Kyoto, Japan">
@@ -373,7 +348,6 @@
     </section>
 
     
-    
     <!-- ============================================================
          三步流程：左右两张浅灰卡 + 中间蓝色卡。蓝色卡内容更多、自然更高，
          栅格用 align-items:center 居中，视觉上就会比两侧“浮起来”。
@@ -393,7 +367,6 @@
             <h3 class="step__title">Find Your Bloom</h3>
           </article>
 
-          
           <article class="step step--featured reveal">
             <div class="step__top">
               <span class="step__icon step__icon--light" aria-hidden="true">
@@ -421,7 +394,6 @@
       </div>
     </section>
 
-    
     
     <!-- ============================================================
          底部活动区：左边图片、右边标题和说明；下方 20% OFF 与 CTA 共用同一套栅格。
@@ -457,7 +429,6 @@
 
   </main>
 
-  
   
   <!-- 页脚 -->
   <footer class="footer" id="contact">
@@ -496,11 +467,10 @@
   </footer>
 
   
-  
   <!-- 图片灯箱：点击目的地图片打开，支持 ESC、方向键和焦点陷阱 -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true" hidden>
     <div class="lightbox__backdrop" data-lightbox-close></div>
-    
+
     <figure class="lightbox__figure">
       <img class="lightbox__img" data-lightbox-img src="" alt="" width="1080" height="1080">
       <figcaption class="lightbox__caption">

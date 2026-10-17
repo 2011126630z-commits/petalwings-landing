@@ -10,6 +10,7 @@
 petalwings/
 ├─ index.html      页面结构（含内联 SVG 图标）
 ├─ css/style.css   样式与响应式
+├─ js/boot.js      首屏初始化（先标记 JS 状态、读取预览参数）
 ├─ js/main.js      交互脚本
 ├─ assets/img/     花卉图片
 ├─ assets/favicon.svg
