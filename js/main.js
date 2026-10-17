@@ -1,16 +1,16 @@
 /**
- * PETALWINGS — main.js（v2）
- * 原生 JS，无依赖。按参考稿的交互重写：
- *   1 页头滚动态        2 移动端菜单（焦点管理）
- *   3 滚动显现          4 英雄区视差
- *   5 目的地轮播（按钮 + 拖拽 + 吸附）
- *   6 灯箱（焦点陷阱 / 键盘 / 滚动锁）
- *   7 导航高亮 / 回到顶部 / 年份
+ * PETALWINGS — main.js (v2)
+ * Vanilla JS, no dependencies. Modules, in order:
+ *   1 header scroll state     2 mobile drawer (focus management)
+ *   3 scroll reveal           4 hero parallax
+ *   5 destination carousel (buttons + drag + snap paging)
+ *   6 lightbox (focus trap / keyboard / scroll lock)
+ *   7 nav highlight / back-to-top / copyright year
  */
 (function () {
   'use strict';
 
-  /* ---------- 00 · 环境与小工具 ----------------------------- */
+  /* ---------- 00 · ENVIRONMENT & HELPERS ------------------------ */
   var root = document.documentElement;
   var qs = function (selector, scope) {
     return (scope || document).querySelector(selector);
@@ -30,7 +30,8 @@
   var hoverCapable = window.matchMedia(
     '(hover: hover) and (pointer: fine)'
   ).matches;
-  /* 截图模式会加 .no-anim：跳过视差等动态逻辑，输出稳定帧 */
+  /* Screenshot mode adds .no-anim: skip motion-driven features so the capture
+   is a stable frame. */
   var skipMotion = root.classList.contains('no-anim') || reduceMotion;
 
   function getFocusable(container) {
@@ -43,9 +44,9 @@
   }
 
   /**
-   * 轻量焦点陷阱：Tab / Shift+Tab 在弹层内循环。
-   * - 容器本身获得焦点（tabindex="-1"）时，Tab 主动送进第一个可聚焦元素；
-   * - 焦点在最后一个元素上时 Tab 回到第一个；反向同理。
+   * Lightweight focus trap: Tab / Shift+Tab cycle inside the dialog.
+   * - tabindex="-1" container focused -> send Tab to the first focusable item;
+   * - focus on the last item + Tab -> wrap to first; Shift+Tab wraps backwards.
    */
   function trapTab(container, event) {
     var items = getFocusable(container);
@@ -71,7 +72,7 @@
     return value < 10 ? '0' + value : String(value);
   }
 
-  /* ---------- 01 · 页头滚动态 ------------------------------- */
+  /* ---------- 01 · HEADER SCROLL STATE -------------------------- */
   (function setupHeader() {
     var header = qs('[data-header]');
     if (!header) return;
@@ -82,7 +83,7 @@
     update();
   })();
 
-  /* ---------- 02 · 移动端菜单 ------------------------------- */
+  /* ---------- 02 · MOBILE DRAWER MENU --------------------------- */
   (function setupMenu() {
     var menu = qs('[data-menu]');
     var toggle = qs('[data-menu-toggle]');
@@ -111,7 +112,8 @@
       toggle.setAttribute('aria-label', 'Close menu');
       document.body.classList.add('is-locked', 'menu-open');
       document.addEventListener('keydown', onKeydown);
-      /* 焦点先给面板本身，避免一打开菜单就在品牌名上出现焦点描边 */
+      /* Focus the panel itself (tabindex="-1") instead of the first link, so opening
+   the menu doesn't immediately draw a focus ring around the brand name. */
       window.setTimeout(function () {
         panel.focus();
       }, 80);
@@ -138,13 +140,14 @@
       el.addEventListener('click', closeMenu);
     });
 
-    /* 点菜单里的锚点：先关菜单，再让浏览器完成默认跳转 */
+    /* Anchor inside the menu: close the menu first, then let the browser perform
+   the default hash navigation. */
     qsa('[data-menu-link]', menu).forEach(function (link) {
       link.addEventListener('click', closeMenu);
     });
   })();
 
-  /* ---------- 03 · 滚动显现 -------------------------------- */
+  /* ---------- 03 · SCROLL REVEAL -------------------------------- */
   (function setupReveal() {
     var targets = qsa('.reveal');
     if (!targets.length) return;
@@ -156,7 +159,8 @@
       return;
     }
 
-    /* 同父级里的元素按顺序错开，卡片 / 列表会依次浮上来 */
+    /* Stagger siblings under the same parent (0–5) so cards and lists rise one
+   after another. */
     var groups = new Map();
     targets.forEach(function (el) {
       var parent = el.parentElement;
@@ -174,6 +178,8 @@
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
           entry.target.classList.add('is-in');
+          /* Unobserve after the first reveal: the animation plays once and
+             never replays when the user scrolls back up. */
           observer.unobserve(entry.target);
         });
       },
@@ -184,7 +190,7 @@
     });
   })();
 
-  /* ---------- 04 · 英雄区视差 ------------------------------- */
+  /* ---------- 04 · HERO PARALLAX -------------------------------- */
   (function setupHeroParallax() {
     if (skipMotion || !hoverCapable) return;
     var hero = qs('.hero__card');
@@ -198,6 +204,8 @@
     var currentY = 0;
     var running = false;
 
+    /* Transform-only updates (translate3d + scale) so parallax never triggers
+       layout or paint; values are smoothed with a lerp inside the rAF loop. */
     var apply = function () {
       var desktop = window.innerWidth > 1024;
       if (!desktop) {
@@ -262,7 +270,7 @@
     window.addEventListener('resize', request);
   })();
 
-  /* ---------- 05 · 目的地轮播 ------------------------------- */
+  /* ---------- 05 · DESTINATION CAROUSEL ------------------------- */
   (function setupCarousel() {
     var viewport = qs('[data-carousel-viewport]');
     var track = qs('[data-carousel-track]');
@@ -276,6 +284,8 @@
       return Math.max(0, viewport.scrollWidth - viewport.clientWidth);
     }
 
+    /* Arrow disabled states are derived from the real scroll position, so
+       keyboard users and programmatic scrolls always see the correct state. */
     function sync() {
       var max = maxScroll();
       if (prevBtn) prevBtn.disabled = viewport.scrollLeft <= 2;
@@ -296,7 +306,8 @@
     window.addEventListener('resize', requestSync);
     sync();
 
-    /* 翻页步长 = 一张卡片宽 + gap，两块一起量，改版式不用改 JS */
+    /* Paging step = card width + gap, measured from the DOM so the layout can
+   change without touching JS. */
     function stepSize() {
       var card = track.querySelector('.dest-card');
       var styles = window.getComputedStyle(track);
@@ -315,11 +326,12 @@
       });
     }
 
-    /* 拖拽：Pointer Events + 原生横向滚动。
-       - 6px 阈值：手指轻微抖动不算拖拽，仍然可以点击卡片；
-       - 超过阈值才 setPointerCapture 接管 scrollLeft；
-       - 松手后吞掉一次 click，避免拖拽结束误开灯箱；
-       - 拖拽期间临时关掉 scroll-snap，松手再恢复，不然会被吸附力拽回去。 */
+    /* Drag-to-scroll: Pointer Events + the viewport's native horizontal scrolling.
+       - 6px threshold: a tiny finger movement still counts as a click;
+       - only past the threshold do we setPointerCapture and take over scrollLeft;
+       - swallow one click after release so a drag does not open the lightbox;
+       - disable scroll-snap while dragging and restore it after, otherwise the
+         snap point pulls the strip back mid-gesture. */
     var pointerDown = false;
     var activeId = null;
     var startX = 0;
@@ -353,7 +365,8 @@
           try {
             viewport.setPointerCapture(activeId);
           } catch (error) {
-            /* 某些浏览器只允许在 pointerdown 里捕获，忽略即可 */
+            /* Some browsers only allow pointer capture during pointerdown; ignore the
+   error otherwise. */
           }
         }
         viewport.scrollLeft = startScroll - delta;
@@ -370,7 +383,7 @@
         try {
           viewport.releasePointerCapture(activeId);
         } catch (error) {
-          /* 同上 */
+          /* Same as above. */
         }
       }
       activeId = null;
@@ -398,7 +411,7 @@
     );
   })();
 
-  /* ---------- 06 · 灯箱 ------------------------------------ */
+  /* ---------- 06 · LIGHTBOX ------------------------------------- */
   (function setupLightbox() {
     var lightbox = qs('#lightbox');
     var triggers = qsa('[data-lightbox]');
@@ -439,6 +452,7 @@
       imgEl.alt = item.alt;
       captionEl.textContent = item.caption;
       countEl.textContent = padTwo(index + 1) + ' / ' + padTwo(items.length);
+      /* Preload the neighbours so arrow-key paging never shows a blank frame. */
       preload(items[(index + 1) % items.length].src);
       preload(items[(index - 1 + items.length) % items.length].src);
     }
@@ -473,7 +487,8 @@
       lightbox.hidden = false;
       lightbox.setAttribute('aria-hidden', 'false');
       document.body.classList.add('is-locked');
-      /* 先移除 hidden，下一帧再加 .is-open，透明度过渡才会生效 */
+      /* Remove hidden first, then add .is-open on the next frame; otherwise the
+   opacity transition never starts. */
       raf(function () {
         lightbox.classList.add('is-open');
       });
@@ -491,6 +506,8 @@
       lightbox.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('is-locked');
       document.removeEventListener('keydown', onKeydown);
+      /* 380ms matches the CSS opacity transition in .lightbox. Keep them
+         together if the transition duration is changed. */
       closeTimer = window.setTimeout(function () {
         lightbox.hidden = true;
         imgEl.removeAttribute('src');
@@ -523,9 +540,10 @@
     }
   })();
 
-  /* ---------- 07 · 导航高亮 / 回到顶部 / 年份 --------------- */
+  /* ---------- 07 · NAV HIGHLIGHT / BACK-TO-TOP / YEAR ----------- */
   (function setupNavSpy() {
-    /* 截图模式关掉高亮，避免整页截图里随机某一条导航被下划线标出来 */
+    /* Skip the scroll-spy in screenshot mode, otherwise a random nav item would be
+   underlined in the full-page capture. */
     if (root.classList.contains('no-anim')) return;
     var links = qsa('.nav__link');
     if (!links.length || !('IntersectionObserver' in window)) return;

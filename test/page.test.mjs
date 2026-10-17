@@ -13,6 +13,9 @@ const jsPath = join(root, 'js/main.js');
 
 const html = readFileSync(htmlPath, 'utf8');
 const css = readFileSync(cssPath, 'utf8');
+/* Structural assertions operate on markup with comments removed: the English
+   documentation mentions attribute names like data-lightbox and href="#...". */
+const markup = html.replace(/<!--[\s\S]*?-->/g, '');
 
 function localPath(ref) {
   const clean = ref.split('?')[0].split('#')[0];
@@ -79,8 +82,8 @@ test('图片文件是有效的 JPG，且全部图片都有对应的本地文件'
 });
 
 test('页面内锚点都有对应的 id', () => {
-  const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]));
-  const anchors = [...html.matchAll(/\bhref="#([^"]+)"/g)].map((m) => m[1]);
+  const ids = new Set([...markup.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]));
+  const anchors = [...markup.matchAll(/\bhref="#([^"]+)"/g)].map((m) => m[1]);
 
   for (const anchor of anchors) {
     assert.ok(ids.has(anchor), `锚点 #${anchor} 没有对应 id`);
@@ -88,7 +91,7 @@ test('页面内锚点都有对应的 id', () => {
 });
 
 test('HTML 中的 id 不重复', () => {
-  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
+  const ids = [...markup.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
   const seen = new Set();
   for (const id of ids) {
     assert.ok(!seen.has(id), `重复 id：${id}`);
@@ -97,23 +100,26 @@ test('HTML 中的 id 不重复', () => {
 });
 
 test('目的地轮播与灯箱的结构完整（6 张卡片）', () => {
-  const cards = html.match(/class="dest-card reveal"/g) || [];
+  /* Structural counts must ignore HTML comments, because comments also mention
+     attribute names such as data-lightbox. */
+  const markup = html.replace(/<!--[\s\S]*?-->/g, '');
+  const cards = markup.match(/class="dest-card reveal"/g) || [];
   assert.equal(cards.length, 6, `目的地卡片数量为 ${cards.length}`);
 
-  const triggers = html.match(/data-lightbox(?=[ >])/g) || [];
+  const triggers = markup.match(/data-lightbox(?=[ >])/g) || [];
   assert.equal(triggers.length, 6, `灯箱触发器数量为 ${triggers.length}`);
 
-  const ratings = html.match(/class="rating-pill"/g) || [];
+  const ratings = markup.match(/class="rating-pill"/g) || [];
   assert.equal(ratings.length, 6, `评分胶囊数量为 ${ratings.length}`);
-  assert.equal((html.match(/aria-label="Rated \d\.\d out of 5"/g) || []).length, 6);
-  assert.match(html, /id="i-star"/, '缺少星标图标');
+  assert.equal((markup.match(/aria-label="Rated \d\.\d out of 5"/g) || []).length, 6);
+  assert.match(markup, /id="i-star"/, '缺少星标图标');
 
-  assert.match(html, /data-carousel-viewport/);
-  assert.match(html, /data-carousel-track/);
-  assert.match(html, /data-carousel-prev/);
-  assert.match(html, /data-carousel-next/);
-  assert.match(html, /id="lightbox"/);
-  assert.match(html, /aria-modal="true"/);
+  assert.match(markup, /data-carousel-viewport/);
+  assert.match(markup, /data-carousel-track/);
+  assert.match(markup, /data-carousel-prev/);
+  assert.match(markup, /data-carousel-next/);
+  assert.match(markup, /id="lightbox"/);
+  assert.match(markup, /aria-modal="true"/);
 });
 
 test('参考稿对应的关键区块都在', () => {

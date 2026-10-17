@@ -1,16 +1,18 @@
 /* =============================================================
-   PETALWINGS — style.css（v2，按参考稿版式重做）
-   结构：
-   01 设计变量   02 基础重置   03 通用组件   04 页头 / 菜单
-   05 英雄区     06 品牌带     07 Popular Destination 轮播
-   08 Journey 三步   09 Promo / Unleash Wanderlust
-   10 页脚       11 灯箱       12 动效 / 响应式 / 降级
+   PETALWINGS — style.css (v2, layout rebuilt from the reference)
+   Sections:
+   01 design tokens      02 base reset       03 shared components
+   04 header / menu      05 hero             06 social proof
+   07 Popular Destination carousel            08 journey steps
+   09 promo / Unleash Wanderlust              10 footer
+   11 lightbox           12 motion / responsive / fallbacks
    ============================================================= */
 
-/* ---------- 01 · 设计变量 ---------------------------------- */
+/* ---------- 01 · DESIGN TOKENS -------------------------------- */
 :root {
-  /* 参考稿是白底 + 黑字 + 亮蓝，这里保留同样的骨架，
-     只把纯白换成微暖的纸白，让花照片更融得进去。 */
+  /* The reference is white + black + bright blue. Keep that skeleton, but
+   warm the white slightly so the flower photography blends into the page
+   instead of sitting on a hard white rectangle. */
   --bg: #fbfaf7;
   --surface: #f2f1ec;
   --surface-2: #f8f7f3;
@@ -41,7 +43,7 @@
   --shadow-float: 0 26px 60px -30px rgba(20, 23, 27, 0.42);
 }
 
-/* ---------- 02 · 基础重置 ---------------------------------- */
+/* ---------- 02 · BASE RESET ---------------------------------- */
 *,
 *::before,
 *::after {
@@ -65,6 +67,8 @@ body {
   line-height: 1.6;
   color: var(--ink);
   background: var(--bg);
+  /* clip (not hidden): hidden would break position:sticky in the header;
+     clip still prevents accidental sideways scrolling. */
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -134,7 +138,7 @@ h3 {
   border-radius: 99px;
 }
 
-/* ---------- 03 · 通用组件 ---------------------------------- */
+/* ---------- 03 · SHARED COMPONENTS ---------------------------- */
 .container {
   width: 100%;
   max-width: var(--maxw);
@@ -160,7 +164,7 @@ h3 {
   flex: 0 0 auto;
 }
 
-/* 小号全大写标签 */
+/* Small uppercase label */
 .eyebrow {
   font-size: 10px;
   font-weight: 700;
@@ -170,6 +174,7 @@ h3 {
   color: var(--muted-strong);
 }
 
+/* Fluid section headings: clamp() replaces a pile of breakpoint overrides. */
 .section-title {
   font-size: clamp(26px, 2.6vw, 36px);
   font-weight: 700;
@@ -197,8 +202,9 @@ h3 {
   margin-bottom: clamp(24px, 3vw, 40px);
 }
 
-/* 上一组 / 下一组：必须显式 flex，否则 .circle-btn 的 display:grid
-   会让两个按钮各占一行（参考图里它们是并排的） */
+/* Prev / next controls must be an explicit flex row: .circle-btn uses
+   display:grid, so without this the two buttons stack vertically
+   (the reference shows them side by side). */
 .carousel-controls {
   display: flex;
   flex-shrink: 0;
@@ -206,7 +212,7 @@ h3 {
   gap: 10px;
 }
 
-/* 胶囊按钮 */
+/* Pill buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -260,7 +266,7 @@ h3 {
   font-size: 10px;
 }
 
-/* 圆形的翻页 / 关闭按钮 */
+/* Circular paging / close buttons */
 .circle-btn {
   display: grid;
   place-items: center;
@@ -302,7 +308,7 @@ h3 {
   pointer-events: none;
 }
 
-/* 深色浮层上的图标按钮（灯箱） */
+/* Ghost icon buttons used on dark overlays (lightbox) */
 .icon-btn {
   display: grid;
   place-items: center;
@@ -338,7 +344,7 @@ h3 {
   color: #fff;
 }
 
-/* 社交小圆点 */
+/* Small social circle */
 .social-dot {
   display: grid;
   place-items: center;
@@ -361,7 +367,8 @@ h3 {
   color: #fff;
 }
 
-/* 评分胶囊：参考图卡片右下角的蓝色小胶囊，是星级评分不是价格 */
+/* Rating pill: the blue pill on the reference cards is a star rating,
+   not a price. Star icon + score on a blue capsule. */
 .rating-pill {
   display: inline-flex;
   align-items: center;
@@ -399,7 +406,7 @@ h3 {
   transform: none;
 }
 
-/* ---------- 04 · 页头 / 菜单 ------------------------------- */
+/* ---------- 04 · HEADER / MENU -------------------------------- */
 .site-header {
   position: sticky;
   top: 0;
@@ -412,6 +419,7 @@ h3 {
   transition: background-color 0.35s, border-color 0.35s;
 }
 
+/* Progressive enhancement: blur the header only if backdrop-filter exists. */
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .site-header {
     -webkit-backdrop-filter: blur(16px) saturate(1.1);
@@ -540,12 +548,13 @@ body.menu-open .menu-toggle__bar:last-child {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* 移动端抽屉 */
+/* Mobile drawer */
 .menu {
   position: fixed;
   inset: 0;
   z-index: 90;
-  overflow: hidden; /* 抽屉在屏幕外时不能把移动端布局视口撑宽 */
+  overflow: hidden; /* Clip the off-canvas drawer: an off-screen fixed panel must not widen the
+   mobile layout viewport (otherwise the whole page is scaled down). */
   visibility: hidden;
   transition: visibility 0s linear 0.5s;
 }
@@ -650,7 +659,7 @@ body.menu-open .menu-toggle__bar:last-child {
   color: var(--muted);
 }
 
-/* ---------- 05 · 英雄区 ------------------------------------ */
+/* ---------- 05 · HERO ---------------------------------------- */
 .hero {
   padding-top: clamp(12px, 1.8vw, 22px);
   padding-bottom: clamp(28px, 3vw, 44px);
@@ -658,6 +667,8 @@ body.menu-open .menu-toggle__bar:last-child {
 
 .hero__card {
   position: relative;
+  /* Fluid hero height: grows with the viewport but stays within 540–700px,
+     which keeps the reference's wide, cinematic card proportion. */
   min-height: clamp(540px, 49vw, 700px);
   display: flex;
   align-items: center;
@@ -667,8 +678,8 @@ body.menu-open .menu-toggle__bar:last-child {
   box-shadow: 0 40px 90px -70px rgba(20, 23, 27, 0.4);
 }
 
-/* 图片和遮罩各自做圆角：这样 hero 容器可以 overflow: visible，
-   让右下角 Know More 卡可以稍微探出卡片边缘。 */
+/* The image and the veil each own their border-radius so this card can stay
+   overflow:visible and let the Know More card hang over the bottom edge. */
 .hero__img {
   position: absolute;
   inset: 0;
@@ -679,8 +690,9 @@ body.menu-open .menu-toggle__bar:last-child {
   border-radius: inherit;
 }
 
-/* 白底百合照和纸白背景的过渡：左侧几乎全遮，右侧逐步露出花朵，
-   和参考图“左边文字、右边大飞机”的明暗关系一致。 */
+/* White-on-white readability: fade the left side almost fully to paper, then
+   progressively reveal the flower on the right — the same light/dark
+   relationship as the reference's "copy left, plane right" hero. */
 .hero__shade {
   position: absolute;
   inset: 0;
@@ -693,7 +705,8 @@ body.menu-open .menu-toggle__bar:last-child {
       rgba(251, 250, 247, 0.06) 72%,
       rgba(251, 250, 247, 0) 84%
     ),
-    /* 顶部一点点冷蓝，让白底照片读起来像“天空里的一个画框” */
+    /* A barely-there cool blue tint at the top makes the white photo read like a
+   framed piece of sky. */
     linear-gradient(
       180deg,
       rgba(207, 225, 248, 0.34) 0%,
@@ -717,7 +730,7 @@ body.menu-open .menu-toggle__bar:last-child {
   max-width: 640px;
 }
 
-/* 左侧竖排 3 步指示（参考图里那三个小圆圈） */
+/* Vertical 1-2-3 step indicator on the far left, as in the reference */
 .hero-steps {
   display: flex;
   flex-direction: column;
@@ -767,9 +780,13 @@ body.menu-open .menu-toggle__bar:last-child {
   color: var(--ink);
 }
 
-/* 每一行都套一个 overflow:hidden 的盒子做“上升”动画。
-   注意：裁切盒必须比行高更大，否则 g / y / p 这些字母的下伸部会被切掉。
-   做法是加 padding 再配等量负 margin —— 视觉行距不变，但可裁切区域变大。 */
+/* Each headline line gets its own overflow:hidden mask for the "rise"
+   entrance animation.
+   IMPORTANT: the mask must be taller than the line box, otherwise descenders
+   (g / y / p) get chopped off — the "g" in "Magic" used to lose its tail.
+   Padding + an equal negative margin enlarges the mask without changing the
+   visual line spacing, and the inner span starts at 122% so the first frame
+   is fully hidden. */
 .hero__title .line {
   display: block;
   margin: -0.05em 0 -0.18em;
@@ -813,7 +830,7 @@ body.menu-open .menu-toggle__bar:last-child {
   transform: scale(1.05);
 }
 
-/* 右下角白色浮卡（Know More） */
+/* Floating white Know More card at the bottom-right */
 .know-card {
   position: absolute;
   right: clamp(16px, 2vw, 28px);
@@ -893,7 +910,7 @@ body.menu-open .menu-toggle__bar:last-child {
   color: var(--muted);
 }
 
-/* ---------- 06 · 品牌带 ------------------------------------ */
+/* ---------- 06 · SOCIAL PROOF -------------------------------- */
 .proof {
   padding-block: clamp(28px, 3.2vw, 42px) clamp(4px, 1vw, 10px);
 }
@@ -963,7 +980,7 @@ body.menu-open .menu-toggle__bar:last-child {
   font-weight: 600;
 }
 
-/* ---------- 07 · POPULAR DESTINATION 轮播 ------------------ */
+/* ---------- 07 · POPULAR DESTINATION CAROUSEL ---------------- */
 .destinations__viewport {
   overflow-x: auto;
   overflow-y: hidden;
@@ -971,8 +988,13 @@ body.menu-open .menu-toggle__bar:last-child {
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-snap-type: x mandatory;
-  /* 必须显式 auto：否则继承 html 的 smooth，拖拽时 scrollLeft 赋值会变成动画 */
+  /* Explicit auto: inheriting html's scroll-behavior:smooth would turn every
+   scrollLeft assignment made during dragging into an animated scroll, which
+   feels laggy and fights the pointer. Arrow buttons request smooth scrolling
+   explicitly through scrollBy({ behavior: 'smooth' }). */
   scroll-behavior: auto;
+  /* pan-y lets the page keep vertical touch scrolling while horizontal
+     gestures are handled manually by the drag logic in main.js. */
   touch-action: pan-y;
 }
 
@@ -982,7 +1004,8 @@ body.menu-open .menu-toggle__bar:last-child {
 
 .destinations__viewport.is-dragging {
   cursor: grabbing;
-  /* 拖拽时临时关掉吸附，松手后恢复，否则 scrollLeft 会被吸附力拽回去 */
+  /* Disable snap while dragging and restore it on release, otherwise the snap
+   point pulls the strip back mid-gesture. */
   scroll-snap-type: none;
 }
 
@@ -995,8 +1018,9 @@ body.menu-open .menu-toggle__bar:last-child {
   gap: var(--card-gap);
 }
 
-/* 三列卡片：宽度 = (100% - 两个间距) / 3。
-   用 --card-gap 参与计算，改间距时卡片宽度自动跟上。 */
+/* Three columns: width = (100% - 2 * gap) / 3.
+   --card-gap participates in the calculation, so changing the gap keeps both
+   the card width and the JS paging step (card width + gap) in sync. */
 .dest-card {
   flex: 0 0 calc((100% - (var(--card-gap) * 2)) / 3);
   scroll-snap-align: start;
@@ -1052,7 +1076,7 @@ body.menu-open .menu-toggle__bar:last-child {
   height: 12px;
 }
 
-/* ---------- 08 · JOURNEY / 三步 ---------------------------- */
+/* ---------- 08 · JOURNEY / THREE STEPS ----------------------- */
 .journey__head {
   max-width: 760px;
   margin: 0 auto clamp(36px, 4vw, 54px);
@@ -1071,7 +1095,9 @@ body.menu-open .menu-toggle__bar:last-child {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(16px, 2vw, 28px);
-  /* 中间的蓝卡内容更多、自然更高；居中而不是拉伸，才有参考图里“浮起来”的感觉 */
+  /* The blue featured card has more content and is naturally taller.
+   Centering the grid items (instead of stretching them) is what makes it
+   "float" above the two lighter side cards. */
   align-items: center;
 }
 
@@ -1144,7 +1170,7 @@ body.menu-open .menu-toggle__bar:last-child {
   box-shadow: none;
 }
 
-/* 圆形缩略图故意压在蓝卡右上角外侧 */
+/* Circular thumbnail deliberately overlaps the blue card's top-right corner */
 .step__thumb {
   position: absolute;
   top: -26px;
@@ -1209,7 +1235,8 @@ body.menu-open .menu-toggle__bar:last-child {
 }
 
 .promo__media {
-  /* 参考图里左侧照片是竖构图；用 aspect-ratio 让它随栅格列宽自动变高 */
+  /* The reference photo is portrait; aspect-ratio lets it grow with the grid
+   column instead of using a fixed height. */
   aspect-ratio: 3 / 4;
   margin: 0;
   overflow: hidden;
@@ -1229,7 +1256,8 @@ body.menu-open .menu-toggle__bar:last-child {
   justify-content: flex-start;
 }
 
-/* 标题占左边，小段落在右上，复刻参考图的两栏排法 */
+/* Headline on the left, small note top-right — the reference's two-column
+   arrangement. */
 .promo__head {
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(0, 0.85fr);
@@ -1238,7 +1266,8 @@ body.menu-open .menu-toggle__bar:last-child {
 }
 
 .promo__title {
-  /* 10em ≈ 10 个字宽，正好让标题折成参考图那样的三行 */
+  /* 10em ≈ 10 characters wide, which wraps the title into three lines like the
+   reference. */
   max-width: 10em;
   font-size: clamp(30px, 3.6vw, 56px);
   font-weight: 700;
@@ -1263,7 +1292,8 @@ body.menu-open .menu-toggle__bar:last-child {
   color: var(--muted);
 }
 
-/* 底部同栅格：左 20% OFF 卡，右大 CTA */
+/* Bottom bar reuses the same columns: 20% OFF card on the left, wide CTA on
+   the right. */
 .promo__bar {
   display: grid;
   grid-template-columns: minmax(240px, 0.9fr) minmax(0, 2fr);
@@ -1326,7 +1356,7 @@ body.menu-open .menu-toggle__bar:last-child {
   transform: translateX(4px);
 }
 
-/* ---------- 10 · 页脚 -------------------------------------- */
+/* ---------- 10 · FOOTER -------------------------------------- */
 .footer {
   padding-block: clamp(26px, 3vw, 40px) clamp(20px, 2.4vw, 30px);
   border-top: 1px solid var(--line);
@@ -1409,7 +1439,7 @@ body.menu-open .menu-toggle__bar:last-child {
   color: #fff;
 }
 
-/* ---------- 11 · 灯箱 -------------------------------------- */
+/* ---------- 11 · LIGHTBOX ------------------------------------ */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -1450,6 +1480,8 @@ body.menu-open .menu-toggle__bar:last-child {
   width: auto;
   height: auto;
   max-width: 100%;
+  /* svh (small viewport height) accounts for mobile browser toolbars, so a
+     tall photo never extends behind the address bar. */
   max-height: min(76svh, 820px);
   border-radius: 4px;
   object-fit: contain;
@@ -1493,9 +1525,10 @@ body.menu-open .menu-toggle__bar:last-child {
   right: clamp(10px, 2.2vw, 30px);
 }
 
-/* ---------- 12 · 动效 / 响应式 / 降级 ----------------------- */
+/* ---------- 12 · MOTION / RESPONSIVE / FALLBACKS ------------- */
 
-/* 滚动显现：同一父级里的元素由 JS 分配 0~5 的延迟，形成错落 */
+/* Scroll reveal: JS assigns 0–5 stagger delays to siblings so cards and lists
+   rise one after another. */
 .reveal {
   opacity: 0;
   transform: translateY(22px);
@@ -1508,7 +1541,7 @@ body.menu-open .menu-toggle__bar:last-child {
   transform: none;
 }
 
-/* 英雄区入场：标题逐行上升，其他元素随后淡入 */
+/* Hero entrance: headline lines rise one by one, then copy and card fade in */
 .js .hero__title .line__inner {
   display: block;
   transform: translateY(122%);
@@ -1563,7 +1596,7 @@ body.menu-open .menu-toggle__bar:last-child {
   }
 }
 
-/* ---------- 响应式 ---------------------------------------- */
+/* ---------- RESPONSIVE --------------------------------------- */
 @media (max-width: 1100px) {
   .proof__logos {
     gap: clamp(18px, 3vw, 36px);
@@ -1588,8 +1621,9 @@ body.menu-open .menu-toggle__bar:last-child {
   }
 
   .hero__card {
-    /* 桌面上是 flex 横排；窄屏必须改回 block，否则 Know More 卡会和正文
-       挤在同一行、把布局视口撑宽（移动端会出现整页被缩小） */
+    /* Desktop uses a flex row; on narrow screens it must become block again.
+   Otherwise the Know More card sits next to the copy on the same flex line and
+   widens the mobile layout viewport (the whole page appears zoomed out). */
     display: block;
     min-height: 0;
   }
@@ -1611,14 +1645,17 @@ body.menu-open .menu-toggle__bar:last-child {
     font-size: clamp(40px, 6.6vw, 58px);
   }
 
-  /* 窄屏时浮卡改为卡内静态块，避免遮住标题。
-     注意保持 position: relative + z-index：hero 图/遮罩是绝对定位，
-     静态元素会被压在下面，看起来像“卡片消失了”。 */
+  /* On narrow screens the floating card becomes an in-flow block so it cannot
+   cover the headline.
+   Keep position:relative + z-index: the hero image and veil are absolutely
+   positioned and would otherwise paint on top of it — which looked like the
+   card had disappeared. */
   .know-card {
     position: relative;
     z-index: 3;
     right: auto;
-    bottom: auto; /* base 里的 bottom:-24px 会把 relative 元素整体下移 */
+    bottom: auto; /* The base rule sets bottom:-24px, which shifts a relatively positioned
+   element down; reset it here. */
     width: auto;
     margin: 28px 18px 18px;
   }
@@ -1675,7 +1712,8 @@ body.menu-open .menu-toggle__bar:last-child {
 }
 
 @media (max-width: 900px) {
-  /* 平板竖屏开始，三步卡片竖排；中间蓝卡恢复普通高度 */
+  /* Tablet portrait: stack the three step cards; the blue card returns to a
+   normal height. */
   .steps {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
@@ -1860,15 +1898,16 @@ body.menu-open .menu-toggle__bar:last-child {
   }
 }
 
-/* ---------- 降级 / 截图辅助 -------------------------------- */
+/* ---------- FALLBACKS / SCREENSHOT HELPERS ------------------- */
 
-/* 无 JS：所有依赖 JS 的内容保持可见 */
+/* No JS: keep JS-dependent content visible */
 .no-js .reveal {
   opacity: 1;
   transform: none;
 }
 
-/* ?no-anim=1：截图时关掉动画与过渡，并强制入场元素可见 */
+/* ?no-anim=1: disable animations and transitions and force reveal elements
+   visible so screenshots capture a stable frame. */
 .no-anim *,
 .no-anim *::before,
 .no-anim *::after {
@@ -1885,7 +1924,7 @@ body.menu-open .menu-toggle__bar:last-child {
   transform: none !important;
 }
 
-/* 用户系统开启“减少动态效果”时全部静态化 */
+/* Respect prefers-reduced-motion: render everything statically */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
