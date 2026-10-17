@@ -49,6 +49,7 @@ npm run shots     # 用本机 Edge/Chrome + CDP 出 5 张页面截图 + 3 张交
 - **轮播卡片宽度计算**：`--card-gap` 参与 `calc((100% - gap*2)/3)`，改间距不用改 JS。
 - **横向拖拽**：Pointer Events + 6px 阈值 + `setPointerCapture` + 拖拽时临时关闭 scroll-snap + 松手吞 click，见 `js/main.js` 第 5 段。
 - **移动端布局视口被撑宽**：hero 在桌面上是 flex 横排，窄屏必须 `display:block`；Know More 卡 static 时要补 `z-index` 否则被绝对定位的图片盖住。
+- **Hero 标题逐行动画的裁切盒**：`.line` 的 `overflow:hidden` 会切掉 g / y / p 的下伸部，用 `padding` + 等量负 `margin` 放大裁切区域且保持行距不变（`css/style.css` 的 `.hero__title .line`）。
 - **灯箱**：焦点陷阱、ESC / 方向键、滚动锁、相邻图预加载、关闭后焦点还原。
 - **降级**：`prefers-reduced-motion`、无 JS、`?no-anim=1`（截图用）、`?shot=1`（懒加载改 eager）。
 

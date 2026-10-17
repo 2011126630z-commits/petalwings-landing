@@ -767,10 +767,13 @@ body.menu-open .menu-toggle__bar:last-child {
   color: var(--ink);
 }
 
+/* 每一行都套一个 overflow:hidden 的盒子做“上升”动画。
+   注意：裁切盒必须比行高更大，否则 g / y / p 这些字母的下伸部会被切掉。
+   做法是加 padding 再配等量负 margin —— 视觉行距不变，但可裁切区域变大。 */
 .hero__title .line {
   display: block;
-  margin-bottom: -0.06em;
-  padding-bottom: 0.06em;
+  margin: -0.05em 0 -0.18em;
+  padding: 0.05em 0 0.18em;
   overflow: hidden;
 }
 
@@ -1508,7 +1511,7 @@ body.menu-open .menu-toggle__bar:last-child {
 /* 英雄区入场：标题逐行上升，其他元素随后淡入 */
 .js .hero__title .line__inner {
   display: block;
-  transform: translateY(112%);
+  transform: translateY(122%);
   animation: hero-rise 1.1s var(--ease-out) forwards;
 }
 
