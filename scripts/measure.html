@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>H=PENDING</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #f6f3ec; }
+  iframe { display: block; border: 0; }
+</style>
+</head>
+<body>
+<!--
+  只给 scripts/shots.mjs 用的量高外壳，不参与交付。
+
+  Windows 下无头浏览器开不出很窄的窗口，直接截图会裁切移动端排版；
+  这里把目标页放进一个宽度精确的 iframe 里，等页面稳定后把
+  scrollHeight 写进 <title>，外层用 --dump-dom 读出来。
+-->
+<div id="host"></div>
+<script>
+(function () {
+  'use strict';
+  var params = new URLSearchParams(window.location.search);
+  var width = Number(params.get('w') || 1440);
+  var src = params.get('src') || '';
+  var probeHeight = Number(params.get('probe') || 1600);
+
+  var frame = document.createElement('iframe');
+  frame.setAttribute('scrolling', 'no');
+  frame.style.width = width + 'px';
+  frame.style.height = probeHeight + 'px';
+  frame.src = src;
+  document.getElementById('host').appendChild(frame);
+
+  function report() {
+    try {
+      var doc = frame.contentWindow.document;
+      var height = Math.max(
+        doc.body ? doc.body.scrollHeight : 0,
+        doc.documentElement ? doc.documentElement.scrollHeight : 0
+      );
+      document.title = height > 0 ? 'H=' + height : 'H=ERR0';
+    } catch (error) {
+      document.title = 'H=ERR:' + (error && error.name ? error.name : 'unknown');
+    }
+  }
+
+  frame.addEventListener('load', function () {
+    setTimeout(report, 700);
+  });
+  setTimeout(report, 3000);
+})();
+</script>
+</body>
+</html>

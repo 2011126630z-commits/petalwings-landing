@@ -1,0 +1,12 @@
+{
+  "name": "petalwings-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Petalwings — 花艺观赏单页（HTML + CSS + JS，零运行时依赖）",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/page.test.mjs",
+    "shots": "node scripts/shots.mjs",
+    "check:ui": "node scripts/ui-check.mjs"
+  }
+}
