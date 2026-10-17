@@ -15,12 +15,9 @@
   <link rel="preload" as="image" href="assets/img/hero-lily.jpg" fetchpriority="high">
   <link rel="stylesheet" href="css/style.css">
 
-  <!--
-    Runs synchronously so the first paint already knows whether JS is available
-    (no-js -> js); this stops the hero headline from flashing before it animates.
-    ?no-anim=1 is used by the screenshot script. ?shot=1 additionally turns all
-    lazy-loaded images into eager ones so full-page captures never miss an image.
-  -->
+  
+  
+  <!-- 首屏渲染前先标记 JS 是否可用，避免标题入场动画闪一下 -->
   <script>
     (function () {
       var root = document.documentElement;
@@ -42,8 +39,9 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- SVG icon sprite: all arrows, step icons, social icons and the rating star
-     are reused via <use href="#..."> so the path data exists only once. -->
+  
+  
+  <!-- 图标雪碧图：箭头、步骤、社交和星标都定义在这里，用 <use> 复用，避免重复路径 -->
   <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <symbol id="i-flower" viewBox="0 0 32 32">
       <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
@@ -110,9 +108,9 @@
     </symbol>
   </svg>
 
-  <!-- ============================================================
-       HEADER: wordmark / primary nav / dark pill CTA
-  ============================================================ -->
+  
+  
+  <!-- 页头：Logo / 导航 / Book Trip 按钮 -->
   <header class="site-header" data-header>
     <div class="container header__inner">
       <a class="brand" href="#top" aria-label="Petalwings — back to top">
@@ -140,8 +138,9 @@
     </div>
   </header>
 
-  <!-- Mobile drawer: slides in from the right. It closes via the backdrop,
-     the Escape key or any nav link, and traps keyboard focus while open. -->
+  
+  
+  <!-- 移动端抽屉菜单：点遮罩、按 ESC 或点导航都会关闭 -->
   <div class="menu" id="mobile-menu" aria-hidden="true" data-menu>
     <div class="menu__backdrop" data-menu-close></div>
     <div class="menu__panel" role="dialog" aria-modal="true" aria-label="Site menu" tabindex="-1">
@@ -170,19 +169,16 @@
 
   <main id="main">
 
+    
+    
     <!-- ============================================================
-       01 · HERO
-       One large rounded image card. The headline sits on the left over a
-       paper-colored gradient, the vertical 1-2-3 step rail sits further left,
-       and the white "Know More" card hangs over the bottom-right corner.
-       The image and the veil each own their border-radius, so this container
-       can stay overflow:visible and let the white card overlap the edge.
-  ============================================================ -->
+         首屏：圆角大图卡片 + 左侧文案 / 步骤指示，右下角压一张 Know More 浮卡。
+         图片和遮罩各自带圆角，容器才能保留 overflow: visible，让浮卡压出边缘。
+    ============================================================ -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="container">
         <div class="hero__card">
-          <!-- Explicit width/height reserve the image box before decode (avoids CLS).
-               The src is also preloaded in <head>, so the hero paints immediately. -->
+          
           <img class="hero__img" src="assets/img/hero-lily.jpg" alt="A white lily in bloom with pale green buds against a soft white backdrop." width="1922" height="1080" fetchpriority="high" decoding="async">
           <div class="hero__shade" aria-hidden="true"></div>
 
@@ -212,9 +208,9 @@
             </div>
           </div>
 
-          <!-- Floating Know More card: white surface, three overlapping circular
-     thumbnails and a short label. Absolutely positioned on desktop, turned
-     into a normal in-flow block inside the card on narrow screens. -->
+          
+          
+          <!-- 白色浮卡：桌面端绝对定位在右下角，窄屏时改为普通文档流 -->
           <aside class="know-card" aria-label="Featured gardens">
             <a class="know-card__head" href="#destinations">
               <span>Know More</span>
@@ -236,9 +232,9 @@
       </div>
     </section>
 
-    <!-- ============================================================
-       02 · SOCIAL PROOF: follow icons + partner wordmarks
-  ============================================================ -->
+    
+    
+    <!-- 合作品牌墙 -->
     <section class="proof" aria-label="Partners and social links">
       <div class="container proof__inner">
         <div class="proof__follow">
@@ -266,13 +262,12 @@
       </div>
     </section>
 
+    
+    
     <!-- ============================================================
-       03 · POPULAR DESTINATION
-       Horizontal carousel. Each card is (100% - 2*gap)/3 wide on desktop,
-       2-up on tablet and about 78vw on phones. The viewport element is the
-       scroll container (native touch scrolling + CSS snap); JS adds arrow
-       paging, drag-to-scroll, disabled-state syncing and slide counters.
-  ============================================================ -->
+         目的地横向轮播：桌面一行三张，平板两张，手机一张约占 78vw 宽度。
+         图片外层带 data-lightbox：禁用 JS 时打开原图，启用 JS 时打开页面内灯箱。
+    ============================================================ -->
     <section class="section destinations" id="destinations" aria-labelledby="destinations-title">
       <div class="container">
         <header class="section-head">
@@ -290,12 +285,11 @@
           </div>
         </header>
 
-        <!-- The viewport is the native scroll container; cards snap to its left
-             edge. Each image anchor below carries data-lightbox + data-caption:
-             with JS disabled it opens the raw image, with JS it opens the in-page
-             viewer instead (preventDefault in main.js). -->
+        
         <div class="destinations__viewport" data-carousel-viewport>
           <div class="destinations__track" data-carousel-track>
+            
+            <!-- 每张卡的图片外层是一个带 data-lightbox 的链接 -->
             <article class="dest-card reveal">
               <a class="dest-card__media" href="assets/img/flower-white-silk.jpg" data-lightbox data-caption="White Silk Gardenia — Kyoto, Japan">
                 <img src="assets/img/flower-white-silk.jpg" alt="A white gardenia glowing against a black background after rain." width="1080" height="1186" loading="lazy" decoding="async">
@@ -378,12 +372,12 @@
       </div>
     </section>
 
+    
+    
     <!-- ============================================================
-       04 · JOURNEY / THREE STEPS
-       Two light cards plus one blue featured card. The blue card has more
-       content and is therefore naturally taller; align-items:center on the
-       grid makes it "float" above the two side cards, as in the reference.
-  ============================================================ -->
+         三步流程：左右两张浅灰卡 + 中间蓝色卡。蓝色卡内容更多、自然更高，
+         栅格用 align-items:center 居中，视觉上就会比两侧“浮起来”。
+    ============================================================ -->
     <section class="section journey" id="journey" aria-labelledby="journey-title">
       <div class="container">
         <header class="journey__head reveal">
@@ -399,9 +393,7 @@
             <h3 class="step__title">Find Your Bloom</h3>
           </article>
 
-          <!-- Featured card: the circular thumbnail is absolutely positioned at
-               top:-26px so it overlaps the card edge; aria-hidden because it is
-               purely decorative and the card already has a text title. -->
+          
           <article class="step step--featured reveal">
             <div class="step__top">
               <span class="step__icon step__icon--light" aria-hidden="true">
@@ -429,12 +421,11 @@
       </div>
     </section>
 
+    
+    
     <!-- ============================================================
-       05 · PROMO / UNLEASH WANDERLUST
-       Photo on the left, headline + side note on the right, sharing one
-       two-column grid. The 20% OFF card and the wide CTA below reuse the
-       exact same column widths so everything lines up vertically.
-  ============================================================ -->
+         底部活动区：左边图片、右边标题和说明；下方 20% OFF 与 CTA 共用同一套栅格。
+    ============================================================ -->
     <section class="promo" id="visit" aria-labelledby="promo-title">
       <div class="container">
         <div class="promo__grid">
@@ -466,10 +457,9 @@
 
   </main>
 
-  <!-- ============================================================
-       06 · FOOTER (the reference mockup has none; this light footer
-       closes the page without competing with the promo above)
-  ============================================================ -->
+  
+  
+  <!-- 页脚 -->
   <footer class="footer" id="contact">
     <div class="container">
       <div class="footer__top">
@@ -505,17 +495,12 @@
     </div>
   </footer>
 
-  <!-- ============================================================
-       07 · LIGHTBOX (opens when a destination image is clicked)
-       The hidden attribute takes it out of layout; .is-open drives the
-       opacity transition. JS handles focus trapping, Escape / arrow keys,
-       body scroll lock, image preloading and restoring focus to the trigger.
-  ============================================================ -->
+  
+  
+  <!-- 图片灯箱：点击目的地图片打开，支持 ESC、方向键和焦点陷阱 -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true" hidden>
     <div class="lightbox__backdrop" data-lightbox-close></div>
-    <!-- The image itself is injected by JS; width/height here only reserves a
-         sane intrinsic ratio, while max-height keeps tall photos inside the
-         viewport on small screens. -->
+    
     <figure class="lightbox__figure">
       <img class="lightbox__img" data-lightbox-img src="" alt="" width="1080" height="1080">
       <figcaption class="lightbox__caption">
