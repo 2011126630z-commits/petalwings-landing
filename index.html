@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Petalwings — Flower-viewing journeys, slowly</title>
-  <meta name="description" content="Petalwings designs slow flower-viewing journeys: private gardens, rare cultivars and mornings among petals. Kyoto, Hangzhou, Hokkaido. One letter, once a season.">
-  <meta name="theme-color" content="#f6f3ec">
+  <title>Petalwings — Flower-viewing trips, made simple</title>
+  <meta name="description" content="Petalwings designs flower-viewing trips to private gardens and rare blooms in Kyoto, Hangzhou and Hokkaido. Book a trip now.">
+  <meta name="theme-color" content="#fbfaf7">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Petalwings — Experience the magic of bloom">
-  <meta property="og:description" content="Private gardens, rare cultivars and slow mornings among petals. Flower-viewing journeys across the four seasons.">
+  <meta property="og:title" content="Petalwings — Experience The Magic Of Bloom!">
+  <meta property="og:description" content="Private gardens, rare cultivars and slow mornings among petals. Book a flower-viewing trip now.">
   <meta property="og:image" content="assets/img/hero-lily.jpg">
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -16,11 +16,8 @@
   <link rel="stylesheet" href="css/style.css">
 
   <!--
-    在 <head> 里同步执行：保证首帧就知道 JS 是否可用（no-js → js），
-    这样英雄标题的入场动画不会闪一下。
-    ?no-anim=1 给截图脚本用；?shot=1 会把依赖视口高度的区块固定住，
-    避免整页截图时 100svh 被撑成整页高度（详见 style.css 末尾）。
-    截图模式还会把懒加载图改成 eager，保证整页截图时下方的图都已加载。
+    同步执行，首帧就区分 no-js / js，避免入场动画闪一下。
+    ?no-anim=1 给截图脚本用；?shot=1 会把懒加载改成 eager，保证整页截图不缺图。
   -->
   <script>
     (function () {
@@ -33,9 +30,7 @@
         root.classList.add('is-shot');
         document.addEventListener('DOMContentLoaded', function () {
           var lazy = document.querySelectorAll('img[loading="lazy"]');
-          for (var i = 0; i < lazy.length; i++) {
-            lazy[i].setAttribute('loading', 'eager');
-          }
+          for (var i = 0; i < lazy.length; i++) lazy[i].setAttribute('loading', 'eager');
         });
       }
     })();
@@ -45,10 +40,7 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- 全局颗粒质感：一层固定定位的 SVG 噪点，纯 CSS，不产生 HTTP 请求 -->
-  <div class="grain" aria-hidden="true"></div>
-
-  <!-- 图标雪碧图：页面里所有箭头/关闭/对勾都用 <use> 复用，避免重复路径 -->
+  <!-- 图标雪碧图：箭头 / 步骤图标 / 社交图标全部 <use> 复用 -->
   <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <symbol id="i-flower" viewBox="0 0 32 32">
       <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
@@ -62,48 +54,80 @@
       <circle cx="16" cy="16" r="1.7" fill="currentColor"/>
     </symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24">
-      <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
     <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
-      <path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="i-chevron-left" viewBox="0 0 24 24">
-      <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="i-chevron-right" viewBox="0 0 24 24">
-      <path d="M10 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="i-close" viewBox="0 0 24 24">
-      <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </symbol>
-    <symbol id="i-check" viewBox="0 0 24 24">
-      <path d="M5 12.5 10 17.5 19 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
     <symbol id="i-arrow-up" viewBox="0 0 24 24">
-      <path d="M12 20V4M6 10l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 20V4M6 10l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24">
+      <path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24">
+      <path d="M10 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 24 24">
+      <path d="M9.5 6.6v10.8L19 12z" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24">
+      <path d="M20.3 13.4 12 21.7 2.3 12V2.3h9.7l8.3 8.3a2 2 0 0 1 0 2.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="7.4" cy="7.4" r="1.3" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M15.2 8.8l-2 5-5 2 2-5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-ticket" viewBox="0 0 24 24">
+      <path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.4a2.6 2.6 0 0 0 0 5.2V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1.4a2.6 2.6 0 0 0 0-5.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M14 8.2v7.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.4 2.4"/>
+    </symbol>
+    <symbol id="i-card" viewBox="0 0 24 24">
+      <rect x="3" y="5.5" width="18" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M3 10h18" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M6.5 14.6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="16.9" cy="7.1" r="1.1" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-facebook" viewBox="0 0 24 24">
+      <path d="M14 8.5h2.5V5.5H14c-2.2 0-4 1.8-4 4V12H7.5v3H10v6h3v-6h2.5l.5-3H13V9.5c0-.6.4-1 1-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
     </symbol>
   </svg>
 
+  <!-- ============================================================
+       页头：logo / 导航 / 深色胶囊按钮
+  ============================================================ -->
   <header class="site-header" data-header>
     <div class="container header__inner">
       <a class="brand" href="#top" aria-label="Petalwings — back to top">
         <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-flower"/></svg>
-        <span class="brand__text">
-          <span class="brand__name">Petalwings</span>
-          <span class="brand__tag">Botanical journeys</span>
-        </span>
+        <span class="brand__name">Petalwings</span>
       </a>
 
       <nav class="nav" aria-label="Primary">
-        <a class="nav__link" href="#collections">Collections</a>
-        <a class="nav__link" href="#experience">Experience</a>
-        <a class="nav__link" href="#journey">How it works</a>
-        <a class="nav__link" href="#archive">Archive</a>
+        <a class="nav__link" href="#destinations">Tours</a>
+        <a class="nav__link" href="#journey">Journey</a>
+        <a class="nav__link" href="#visit">Offer</a>
+        <a class="nav__link" href="#contact">Contact</a>
       </nav>
 
       <div class="header__actions">
-        <a class="btn btn--primary btn--sm header__cta" href="#visit">
-          <span>Book a visit</span>
+        <a class="btn btn--dark btn--sm header__cta" href="#visit">
+          <span>Book Trip</span>
           <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
         </a>
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
@@ -114,32 +138,29 @@
     </div>
   </header>
 
-  <!-- 移动端菜单：面板在右侧滑出，遮罩点击 / ESC / 链接都能关闭 -->
+  <!-- 移动端抽屉菜单 -->
   <div class="menu" id="mobile-menu" aria-hidden="true" data-menu>
     <div class="menu__backdrop" data-menu-close></div>
     <div class="menu__panel" role="dialog" aria-modal="true" aria-label="Site menu" tabindex="-1">
       <div class="menu__head">
         <a class="brand" href="#top" data-menu-link>
           <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-flower"/></svg>
-          <span class="brand__text"><span class="brand__name">Petalwings</span></span>
+          <span class="brand__name">Petalwings</span>
         </a>
-        <button class="circle-btn circle-btn--ink" type="button" aria-label="Close menu" data-menu-close>
+        <button class="icon-btn icon-btn--light" type="button" aria-label="Close menu" data-menu-close>
           <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
         </button>
       </div>
-
       <nav class="menu__nav" aria-label="Mobile">
-        <a class="menu__link" href="#collections" data-menu-link><span>01</span>Collections</a>
-        <a class="menu__link" href="#experience" data-menu-link><span>02</span>Experience</a>
-        <a class="menu__link" href="#journey" data-menu-link><span>03</span>How it works</a>
-        <a class="menu__link" href="#archive" data-menu-link><span>04</span>Archive</a>
-        <a class="menu__link" href="#visit" data-menu-link><span>05</span>Book a visit</a>
+        <a class="menu__link" href="#destinations" data-menu-link><span>01</span>Tours</a>
+        <a class="menu__link" href="#journey" data-menu-link><span>02</span>Journey</a>
+        <a class="menu__link" href="#visit" data-menu-link><span>03</span>Offer</a>
+        <a class="menu__link" href="#contact" data-menu-link><span>04</span>Contact</a>
       </nav>
-
       <div class="menu__foot">
-        <p class="menu__label">Say hello</p>
-        <a class="menu__mail" href="mailto:hello@petalwings.studio">hello@petalwings.studio</a>
-        <p class="menu__note">Kyoto · Hangzhou · Hokkaido<br>One letter, once a season.</p>
+        <a class="btn btn--blue" href="#visit" data-menu-link>Book A Trip Now</a>
+        <p class="menu__mail">hello@petalwings.studio</p>
+        <p class="menu__note">Kyoto · Hangzhou · Hokkaido</p>
       </div>
     </div>
   </div>
@@ -148,537 +169,338 @@
 
     <!-- ============================================================
          01 · HERO
-         白底百合照本身就是“左文右图”的构图，所以直接做背景：
-         左侧用纸色渐变遮罩保证文字可读，右侧留出花与花苞。
+         整块圆角大图卡片：左侧竖排步骤 + 标题 + 按钮，
+         右下角压一张白色 Know More 小卡（比卡片底边略凸出）。
     ============================================================ -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero__inner container">
-        <div class="hero__copy">
-          <p class="eyebrow hero__eyebrow"><span class="eyebrow__line" aria-hidden="true"></span>Season 2026 · 花見 Flower viewing</p>
+      <div class="container">
+        <div class="hero__card">
+          <img class="hero__img" src="assets/img/hero-lily.jpg" alt="A white lily in bloom with pale green buds against a soft white backdrop." width="1922" height="1080" fetchpriority="high" decoding="async">
+          <div class="hero__shade" aria-hidden="true"></div>
 
-          <h1 class="hero__title" id="hero-title">
-            <span class="line"><span class="line__inner">Experience</span></span>
-            <span class="line"><span class="line__inner">the magic</span></span>
-            <span class="line"><span class="line__inner"><em>of bloom.</em></span></span>
-          </h1>
+          <div class="hero__inner">
+            <ol class="hero-steps" aria-hidden="true">
+              <li class="hero-step is-active"><span>1</span></li>
+              <li class="hero-step"><span>2</span></li>
+              <li class="hero-step"><span>3</span></li>
+            </ol>
 
-          <p class="hero__lede">Private gardens, rare cultivars and slow mornings among petals. Petalwings arranges flower-viewing journeys across the four seasons — no crowds, no hurry, just the bloom.</p>
-
-          <div class="hero__actions">
-            <a class="btn btn--primary" href="#collections">
-              <span>Explore collections</span>
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
-            </a>
-            <a class="btn btn--ghost" href="#experience">
-              <span>Our philosophy</span>
-            </a>
+            <div class="hero__copy">
+              <p class="eyebrow">Elevate your flower journey</p>
+              <h1 class="hero__title" id="hero-title">
+                <span class="line"><span class="line__inner">Experience</span></span>
+                <span class="line"><span class="line__inner">The Magic Of</span></span>
+                <span class="line"><span class="line__inner">Bloom!</span></span>
+              </h1>
+              <div class="hero__actions">
+                <a class="btn btn--blue" href="#destinations">
+                  <span>Book A Trip Now</span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </a>
+                <a class="play-btn" href="#journey" aria-label="See how a Petalwings trip works">
+                  <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
 
-          <dl class="hero__facts" aria-label="Petalwings in numbers">
-            <div class="fact">
-              <dt class="fact__value"><span data-count="12">12</span></dt>
-              <dd class="fact__label">private gardens</dd>
+          <!-- 白色浮卡：Know More + 三张圆形缩略图 -->
+          <aside class="know-card" aria-label="Featured gardens">
+            <a class="know-card__head" href="#destinations">
+              <span>Know More</span>
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+            <div class="know-card__body">
+              <div class="know-card__thumbs" aria-hidden="true">
+                <span class="thumb"><img src="assets/img/flower-blue.jpg" alt="" width="1080" height="1440" loading="lazy" decoding="async"></span>
+                <span class="thumb"><img src="assets/img/flower-spotted.jpg" alt="" width="1080" height="1440" loading="lazy" decoding="async"></span>
+                <span class="thumb"><img src="assets/img/flower-gardenia.jpg" alt="" width="1440" height="1080" loading="lazy" decoding="async"></span>
+              </div>
+              <div class="know-card__text">
+                <p class="know-card__title">Blooming Places</p>
+                <p class="know-card__desc">Discover The World One Petal At A Time.</p>
+              </div>
             </div>
-            <div class="fact">
-              <dt class="fact__value"><span data-count="48">48</span></dt>
-              <dd class="fact__label">rare cultivars</dd>
-            </div>
-            <div class="fact">
-              <dt class="fact__value"><span data-count="4.9" data-decimals="1">4.9</span><span class="fact__suffix">/5</span></dt>
-              <dd class="fact__label">guest rating</dd>
-            </div>
-          </dl>
+          </aside>
         </div>
-
-        <!-- 悬浮的“Know More”玻璃卡：参考图里最标志性的细节之一 -->
-        <aside class="hero-card" aria-label="Featured destination">
-          <a class="hero-card__head" href="#collections">
-            <span>Know more</span>
-            <span class="hero-card__arrow" aria-hidden="true">
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
-            </span>
-          </a>
-          <div class="hero-card__body">
-            <div class="hero-card__thumbs" aria-hidden="true">
-              <span class="thumb"><img src="assets/img/flower-blue.jpg" alt="" width="1080" height="1440" loading="lazy" decoding="async"></span>
-              <span class="thumb"><img src="assets/img/flower-spotted.jpg" alt="" width="1080" height="1440" loading="lazy" decoding="async"></span>
-              <span class="thumb"><img src="assets/img/flower-camellia-dark.jpg" alt="" width="1612" height="1080" loading="lazy" decoding="async"></span>
-            </div>
-            <div class="hero-card__text">
-              <p class="hero-card__title">Blooming places</p>
-              <p class="hero-card__desc">Discover the world one petal at a time.</p>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-      <div class="hero__media" aria-hidden="true">
-        <img class="hero__img" src="assets/img/hero-lily.jpg" alt="" width="1922" height="1080" fetchpriority="high" decoding="async">
-      </div>
-      <div class="hero__veil" aria-hidden="true"></div>
-
-      <div class="hero__scroll" aria-hidden="true">
-        <span class="hero__scroll-line"><span class="hero__scroll-dot"></span></span>
-        <span>Scroll to wander</span>
       </div>
     </section>
 
-    <!-- 花名跑马灯：JS 会把内容克隆到两屏宽，再用 -50% 位移做无缝循环 -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee__track" data-marquee>
-        <div class="marquee__group">
-          <span>Lilium candidum</span><span class="sep">✦</span>
-          <span>Gardenia jasminoides</span><span class="sep">✦</span>
-          <span>Camellia japonica</span><span class="sep">✦</span>
-          <span>Magnolia denudata</span><span class="sep">✦</span>
-          <span>Wisteria floribunda</span><span class="sep">✦</span>
-          <span>Paeonia lactiflora</span><span class="sep">✦</span>
-          <span>Hydrangea macrophylla</span><span class="sep">✦</span>
-          <span>Nelumbo nucifera</span><span class="sep">✦</span>
+    <!-- ============================================================
+         02 · 品牌带：Follow + 四家合作方（灰字 logo 墙）
+    ============================================================ -->
+    <section class="proof" aria-label="Partners and social links">
+      <div class="container proof__inner">
+        <div class="proof__follow">
+          <span class="proof__label">Follow</span>
+          <a class="social-dot" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg>
+          </a>
+          <a class="social-dot" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+          </a>
+          <a class="social-dot" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg>
+          </a>
         </div>
+
+        <ul class="proof__logos">
+          <li class="partner partner--kew">
+            <svg class="partner__mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c0-4 2-7 5-8-1-2-1-4 0-6 2 2 2 5 1 7 2 1 4 3 4 6-3 0-5-2-5-5-1 2-2 3-5 4-3-1-4-2-5-4 0 3-2 5-5 5 0-3 2-5 4-6-1-2-1-5 1-7 1 2 1 4 0 6 3 1 5 4 5 8z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+            <span>Kew Gardens</span>
+          </li>
+          <li class="partner partner--rhs">RHS</li>
+          <li class="partner partner--teamlab">teamLab</li>
+          <li class="partner partner--bloom">Bloom &amp; Wild</li>
+        </ul>
       </div>
-    </div>
+    </section>
 
     <!-- ============================================================
-         02 · POPULAR DESTINATIONS / 收藏系列
+         03 · POPULAR DESTINATION
+         横向轮播：卡片宽度 = (100% - 2×gap) / 3；箭头翻页 + 手机拖拽
     ============================================================ -->
-    <section class="section collections" id="collections" aria-labelledby="collections-title">
+    <section class="section destinations" id="destinations" aria-labelledby="destinations-title">
       <div class="container">
         <header class="section-head">
-          <div class="section-head__lead">
-            <p class="eyebrow reveal">01 — Popular destinations</p>
-            <h2 class="display reveal" id="collections-title">Three worlds<br><em>in bloom.</em></h2>
+          <div class="section-head__lead reveal">
+            <h2 class="section-title" id="destinations-title">Popular Destination</h2>
+            <p class="section-sub">Unleash Your Wanderlust With Petalwings</p>
           </div>
-          <div class="section-head__aside">
-            <p class="section-head__lede reveal">Each collection is a single slow day: a private garden, a botanist who knows its stories, and a table set among the flowers.</p>
-            <a class="link-arrow reveal" href="#archive">
-              <span>View all collections</span>
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
-            </a>
-          </div>
-        </header>
-
-        <div class="collections__grid">
-          <!-- 卡片链接本身挂 data-lightbox：禁 JS 时点击会直接打开原图，启用 JS 则进灯箱 -->
-          <article class="collection reveal">
-            <a class="collection__media" href="assets/img/col-spotted.jpg" data-tilt
-               data-lightbox data-caption="Pressed &amp; Preserved — a private atelier in Kyoto"
-               aria-label="Open image: Pressed &amp; Preserved">
-              <img src="assets/img/col-spotted.jpg" alt="An ivory pressed flower scattered with deep burgundy speckles, floating on black." width="864" height="1080" loading="lazy" decoding="async">
-              <span class="tag tag--glass">Rare · 6 places left</span>
-              <span class="collection__zoom" aria-hidden="true">
-                <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
-              </span>
-            </a>
-            <div class="collection__meta">
-              <div>
-                <p class="collection__kicker">Kyoto · Japan</p>
-                <h3 class="collection__title">Pressed &amp; Preserved</h3>
-              </div>
-              <p class="collection__price"><span>from</span> $86</p>
-            </div>
-            <p class="collection__desc">An atelier of pressed botanicals, kept between glass and paper since 1974.</p>
-          </article>
-
-          <article class="collection reveal">
-            <a class="collection__media" href="assets/img/col-blue.jpg" data-tilt
-               data-lightbox data-caption="The Blue Hour — a single lily in Hokkaido"
-               aria-label="Open image: The Blue Hour">
-              <img src="assets/img/col-blue.jpg" alt="A single blue lily in full bloom against a pure black background." width="864" height="1080" loading="lazy" decoding="async">
-              <span class="tag tag--glass">Seasonal · 4 places left</span>
-              <span class="collection__zoom" aria-hidden="true">
-                <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
-              </span>
-            </a>
-            <div class="collection__meta">
-              <div>
-                <p class="collection__kicker">Hokkaido · Japan</p>
-                <h3 class="collection__title">The Blue Hour</h3>
-              </div>
-              <p class="collection__price"><span>from</span> $120</p>
-            </div>
-            <p class="collection__desc">A single impossible lily, lit for ninety minutes after sunset. No filters, no flash.</p>
-          </article>
-
-          <article class="collection reveal">
-            <a class="collection__media" href="assets/img/col-camellia.jpg" data-tilt
-               data-lightbox data-caption="Camellia Hours — rain, dark leaves and white petals in Hangzhou"
-               aria-label="Open image: Camellia Hours">
-              <img src="assets/img/col-camellia.jpg" alt="A white camellia beaded with rain, half-hidden in dark wet leaves." width="864" height="1080" loading="lazy" decoding="async">
-              <span class="tag tag--glass">Signature</span>
-              <span class="collection__zoom" aria-hidden="true">
-                <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
-              </span>
-            </a>
-            <div class="collection__meta">
-              <div>
-                <p class="collection__kicker">Hangzhou · China</p>
-                <h3 class="collection__title">Camellia Hours</h3>
-              </div>
-              <p class="collection__price"><span>from</span> $98</p>
-            </div>
-            <p class="collection__desc">Rain, dark leaves, and white camellias the size of a palm. Umbrellas provided.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         03 · THE EXPERIENCE（深色章节）
-         这里的白花照片是纯黑底，CSS 用 mix-blend-mode: lighten
-         把黑色“吃掉”融进深色背景，只留下发光的花瓣。
-    ============================================================ -->
-    <section class="section experience" id="experience" aria-labelledby="experience-title">
-      <span class="experience__ghost" aria-hidden="true">花見</span>
-      <div class="container experience__grid">
-        <div class="experience__copy">
-          <p class="eyebrow eyebrow--light reveal">02 — The experience</p>
-          <h2 class="display display--light reveal" id="experience-title">The art of<br><em>looking closely.</em></h2>
-          <p class="experience__lede reveal">Flower viewing is not a checklist. We build the day around light, weather and the pace of the garden — then step back and let it happen.</p>
-
-          <ul class="features">
-            <li class="feature reveal">
-              <span class="feature__num">01</span>
-              <div class="feature__body">
-                <h3 class="feature__title">Dawn access</h3>
-                <p class="feature__desc">Gates open an hour before the public, while the dew is still on the petals.</p>
-              </div>
-            </li>
-            <li class="feature reveal">
-              <span class="feature__num">02</span>
-              <div class="feature__body">
-                <h3 class="feature__title">A botanist, not a guide</h3>
-                <p class="feature__desc">Small groups of six. Someone who can name the cultivar and the century it arrived.</p>
-              </div>
-            </li>
-            <li class="feature reveal">
-              <span class="feature__num">03</span>
-              <div class="feature__body">
-                <h3 class="feature__title">A table among flowers</h3>
-                <p class="feature__desc">Lunch set under the trees, cooked with what grows in the same garden.</p>
-              </div>
-            </li>
-          </ul>
-
-          <a class="btn btn--ghost-light reveal" href="#journey">
-            <span>How a day unfolds</span>
-            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
-          </a>
-        </div>
-
-        <figure class="experience__figure reveal">
-          <div class="experience__frame">
-            <img class="experience__img" src="assets/img/flower-white-silk.jpg" alt="A translucent white flower glowing softly against black, its petals catching the light." width="1080" height="1186" loading="lazy" decoding="async">
-          </div>
-          <figcaption class="experience__caption">
-            <span>Gardenia jasminoides</span>
-            <span>06:12 — after rain</span>
-          </figcaption>
-
-          <!-- 旋转印章：SVG textPath 让文字沿圆环排列，只让文字组旋转 -->
-          <svg class="seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-            <defs>
-              <path id="seal-circle" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0" fill="none"/>
-            </defs>
-            <g class="seal__spin">
-              <text class="seal__text">
-                <textPath href="#seal-circle">PETALWINGS · SLOW FLOWER VIEWING · BOTANICAL JOURNEYS ·</textPath>
-              </text>
-            </g>
-            <g class="seal__mark">
-              <use href="#i-flower" x="84" y="84" width="32" height="32"/>
-            </g>
-          </svg>
-        </figure>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         04 · JOURNEY / 三步流程
-         横向进度线由 JS 根据滚动位置写入 --steps-progress
-    ============================================================ -->
-    <section class="section journey" id="journey" aria-labelledby="journey-title">
-      <div class="container">
-        <header class="section-head section-head--center">
-          <p class="eyebrow reveal">03 — How it works</p>
-          <h2 class="display reveal" id="journey-title">Journey to the blooms, <br><em>made simple.</em></h2>
-          <p class="section-head__lede section-head__lede--center reveal">Three quiet steps between you and the garden. Everything else — permits, transport, the table — is arranged.</p>
-        </header>
-
-        <div class="steps" data-steps>
-          <div class="steps__track" aria-hidden="true"><span class="steps__fill" data-steps-fill></span></div>
-          <ol class="steps__list">
-            <li class="step reveal">
-              <span class="step__marker" aria-hidden="true"></span>
-              <span class="step__num">01</span>
-              <h3 class="step__title">Find your bloom</h3>
-              <p class="step__desc">Browse by season, flower or mood. Each collection lists exactly what will be open when you arrive.</p>
-              <span class="step__meta">5 minutes · free</span>
-            </li>
-            <li class="step reveal">
-              <span class="step__marker" aria-hidden="true"></span>
-              <span class="step__num">02</span>
-              <h3 class="step__title">Reserve a morning</h3>
-              <p class="step__desc">Pick a date and we hold a private slot. Groups stay small, so the garden stays quiet.</p>
-              <span class="step__meta">2 minutes · no payment yet</span>
-            </li>
-            <li class="step reveal">
-              <span class="step__marker" aria-hidden="true"></span>
-              <span class="step__num">03</span>
-              <h3 class="step__title">Wander with a botanist</h3>
-              <p class="step__desc">Meet at first light, walk slowly, and leave with a pressed specimen from the day.</p>
-              <span class="step__meta">Half a day · all included</span>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         05 · ARCHIVE / 横向图库
-         原生横向滚动 + Pointer Events 拖拽，进度条与左右按钮同步
-    ============================================================ -->
-    <section class="section archive" id="archive" aria-labelledby="archive-title">
-      <div class="container archive__head">
-        <div class="archive__intro">
-          <p class="eyebrow eyebrow--light reveal">04 — The archive</p>
-          <h2 class="display display--light reveal" id="archive-title">Collected light<br><em>&amp; petals.</em></h2>
-        </div>
-        <div class="archive__aside">
-          <p class="archive__lede reveal">A field journal of what bloomed, where, and at what hour. Drag the strip, or open a frame to look closer.</p>
-          <div class="archive__buttons reveal">
-            <button class="circle-btn" type="button" aria-label="Previous images" data-archive-prev>
+          <div class="carousel-controls reveal" role="group" aria-label="Destination carousel controls">
+            <button class="circle-btn circle-btn--ghost" type="button" aria-label="Previous destinations" data-carousel-prev disabled>
               <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>
             </button>
-            <button class="circle-btn" type="button" aria-label="Next images" data-archive-next>
+            <button class="circle-btn circle-btn--solid" type="button" aria-label="Next destinations" data-carousel-next>
               <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
             </button>
           </div>
+        </header>
+
+        <div class="destinations__viewport" data-carousel-viewport>
+          <div class="destinations__track" data-carousel-track>
+            <article class="dest-card reveal">
+              <a class="dest-card__media" href="assets/img/flower-white-silk.jpg" data-lightbox data-caption="White Silk Gardenia — Kyoto, Japan">
+                <img src="assets/img/flower-white-silk.jpg" alt="A white gardenia glowing against a black background after rain." width="1080" height="1186" loading="lazy" decoding="async">
+              </a>
+              <div class="dest-card__row">
+                <div class="dest-card__info">
+                  <h3 class="dest-card__title">White Silk Gardenia</h3>
+                  <p class="dest-card__meta"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Kyoto, Japan</p>
+                </div>
+                <span class="price-pill"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>$86</span>
+              </div>
+            </article>
+
+            <article class="dest-card reveal">
+              <a class="dest-card__media" href="assets/img/flower-blue.jpg" data-lightbox data-caption="Blue Hour Lily — Hokkaido, Japan">
+                <img src="assets/img/flower-blue.jpg" alt="A blue lily in full bloom against a pure black background." width="1080" height="1440" loading="lazy" decoding="async">
+              </a>
+              <div class="dest-card__row">
+                <div class="dest-card__info">
+                  <h3 class="dest-card__title">Blue Hour Lily</h3>
+                  <p class="dest-card__meta"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Hokkaido, Japan</p>
+                </div>
+                <span class="price-pill"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>$120</span>
+              </div>
+            </article>
+
+            <article class="dest-card reveal">
+              <a class="dest-card__media" href="assets/img/flower-camellia-rain.jpg" data-lightbox data-caption="Rain On Camellia — Hangzhou, China">
+                <img src="assets/img/flower-camellia-rain.jpg" alt="A white camellia covered in raindrops among dark glossy leaves." width="1593" height="1080" loading="lazy" decoding="async">
+              </a>
+              <div class="dest-card__row">
+                <div class="dest-card__info">
+                  <h3 class="dest-card__title">Rain On Camellia</h3>
+                  <p class="dest-card__meta"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Hangzhou, China</p>
+                </div>
+                <span class="price-pill"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>$98</span>
+              </div>
+            </article>
+
+            <article class="dest-card reveal">
+              <a class="dest-card__media" href="assets/img/flower-gardenia.jpg" data-lightbox data-caption="Gardenia After Rain — Hangzhou, China">
+                <img src="assets/img/flower-gardenia.jpg" alt="A dew-covered white camellia flower in a dark garden at dawn." width="1440" height="1080" loading="lazy" decoding="async">
+              </a>
+              <div class="dest-card__row">
+                <div class="dest-card__info">
+                  <h3 class="dest-card__title">Gardenia After Rain</h3>
+                  <p class="dest-card__meta"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Hangzhou, China</p>
+                </div>
+                <span class="price-pill"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>$74</span>
+              </div>
+            </article>
+
+            <article class="dest-card reveal">
+              <a class="dest-card__media" href="assets/img/flower-spotted.jpg" data-lightbox data-caption="Pressed Botanicals — Kyoto, Japan">
+                <img src="assets/img/flower-spotted.jpg" alt="A pressed ivory lily speckled with dark burgundy marks on black." width="1080" height="1440" loading="lazy" decoding="async">
+              </a>
+              <div class="dest-card__row">
+                <div class="dest-card__info">
+                  <h3 class="dest-card__title">Pressed Botanicals</h3>
+                  <p class="dest-card__meta"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Kyoto, Japan</p>
+                </div>
+                <span class="price-pill"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>$64</span>
+              </div>
+            </article>
+
+            <article class="dest-card reveal">
+              <a class="dest-card__media" href="assets/img/flower-camellia-dark.jpg" data-lightbox data-caption="Old Camellia Tree — Hangzhou, China">
+                <img src="assets/img/flower-camellia-dark.jpg" alt="A white camellia nestled in shadowed wet leaves." width="1612" height="1080" loading="lazy" decoding="async">
+              </a>
+              <div class="dest-card__row">
+                <div class="dest-card__info">
+                  <h3 class="dest-card__title">Old Camellia Tree</h3>
+                  <p class="dest-card__meta"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Hangzhou, China</p>
+                </div>
+                <span class="price-pill"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>$110</span>
+              </div>
+            </article>
+          </div>
         </div>
-      </div>
-
-      <div class="archive__viewport" data-archive-viewport>
-        <div class="archive__track" data-archive-track>
-          <figure class="archive__item">
-            <a class="archive__open" href="assets/img/flower-white-silk.jpg" data-lightbox data-caption="Gardenia jasminoides — Kyoto, 06:12, after rain" aria-label="Open image: Gardenia jasminoides">
-              <img src="assets/img/flower-white-silk.jpg" alt="A white gardenia glowing against a black background after rain." width="1080" height="1186" loading="lazy" decoding="async">
-            </a>
-            <figcaption class="archive__caption">
-              <span class="archive__index">01</span>
-              <span class="archive__name">Gardenia jasminoides</span>
-              <span class="archive__place">Kyoto · 06:12</span>
-            </figcaption>
-          </figure>
-
-          <figure class="archive__item">
-            <a class="archive__open" href="assets/img/flower-gardenia.jpg" data-lightbox data-caption="Camellia sasanqua — Hangzhou, 07:03, first light" aria-label="Open image: Camellia sasanqua">
-              <img src="assets/img/flower-gardenia.jpg" alt="A dew-covered white camellia flower in a dark garden at dawn." width="1440" height="1080" loading="lazy" decoding="async">
-            </a>
-            <figcaption class="archive__caption">
-              <span class="archive__index">02</span>
-              <span class="archive__name">Camellia sasanqua</span>
-              <span class="archive__place">Hangzhou · 07:03</span>
-            </figcaption>
-          </figure>
-
-          <figure class="archive__item">
-            <a class="archive__open" href="assets/img/flower-camellia-rain.jpg" data-lightbox data-caption="Camellia japonica — Hangzhou, 06:48, in the rain" aria-label="Open image: Camellia japonica in the rain">
-              <img src="assets/img/flower-camellia-rain.jpg" alt="A large white camellia covered in raindrops, surrounded by dark glossy leaves." width="1593" height="1080" loading="lazy" decoding="async">
-            </a>
-            <figcaption class="archive__caption">
-              <span class="archive__index">03</span>
-              <span class="archive__name">Camellia japonica</span>
-              <span class="archive__place">Hangzhou · 06:48</span>
-            </figcaption>
-          </figure>
-
-          <figure class="archive__item">
-            <a class="archive__open" href="assets/img/flower-blue.jpg" data-lightbox data-caption="Lilium candidum — Hokkaido, 19:40, blue hour" aria-label="Open image: Lilium candidum in blue light">
-              <img src="assets/img/flower-blue.jpg" alt="A blue lily with open petals and visible stamens on a black background." width="1080" height="1440" loading="lazy" decoding="async">
-            </a>
-            <figcaption class="archive__caption">
-              <span class="archive__index">04</span>
-              <span class="archive__name">Lilium candidum</span>
-              <span class="archive__place">Hokkaido · 19:40</span>
-            </figcaption>
-          </figure>
-
-          <figure class="archive__item">
-            <a class="archive__open" href="assets/img/flower-spotted.jpg" data-lightbox data-caption="Lilium auratum — Kyoto, 08:20, pressed in the atelier" aria-label="Open image: Lilium auratum, pressed">
-              <img src="assets/img/flower-spotted.jpg" alt="A pressed ivory lily speckled with dark burgundy marks on black." width="1080" height="1440" loading="lazy" decoding="async">
-            </a>
-            <figcaption class="archive__caption">
-              <span class="archive__index">05</span>
-              <span class="archive__name">Lilium auratum</span>
-              <span class="archive__place">Kyoto · 08:20</span>
-            </figcaption>
-          </figure>
-
-          <figure class="archive__item">
-            <a class="archive__open" href="assets/img/flower-camellia-dark.jpg" data-lightbox data-caption="Camellia japonica — Hangzhou, 06:31, under the old tree" aria-label="Open image: Camellia japonica under the old tree">
-              <img src="assets/img/flower-camellia-dark.jpg" alt="A white camellia nestled in shadowed leaves, golden stamens at its centre." width="1612" height="1080" loading="lazy" decoding="async">
-            </a>
-            <figcaption class="archive__caption">
-              <span class="archive__index">06</span>
-              <span class="archive__name">Camellia japonica</span>
-              <span class="archive__place">Hangzhou · 06:31</span>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-
-      <div class="container archive__foot">
-        <div class="archive__progress" aria-hidden="true"><span data-archive-progress></span></div>
-        <p class="archive__hint">Drag to explore · click to enlarge</p>
       </div>
     </section>
 
     <!-- ============================================================
-         06 · PROMO / 邀请
-         背景图比容器高 12%，滚动时做小幅视差，避免边缘露白
+         04 · JOURNEY / 三步
+         左右浅灰卡 + 中间蓝色卡；蓝色卡内容更多、自然更高，
+         grid 的 align-items:center 让它在视觉上“浮起来”。
+    ============================================================ -->
+    <section class="section journey" id="journey" aria-labelledby="journey-title">
+      <div class="container">
+        <header class="journey__head reveal">
+          <h2 class="section-title section-title--center" id="journey-title">Journey To The Blooms Made Simple!</h2>
+          <p class="journey__sub">Flower viewing is a wonderful way to explore new places, learn about rare cultivars, and gain quiet, memorable experiences.</p>
+        </header>
+
+        <div class="steps">
+          <article class="step reveal">
+            <span class="step__icon" aria-hidden="true">
+              <svg class="icon"><use href="#i-compass"/></svg>
+            </span>
+            <h3 class="step__title">Find Your Bloom</h3>
+          </article>
+
+          <article class="step step--featured reveal">
+            <div class="step__top">
+              <span class="step__icon step__icon--light" aria-hidden="true">
+                <svg class="icon"><use href="#i-ticket"/></svg>
+              </span>
+              <span class="step__thumb" aria-hidden="true">
+                <img src="assets/img/hero-lily.jpg" alt="" width="1922" height="1080" loading="lazy" decoding="async">
+              </span>
+            </div>
+            <h3 class="step__title">Book A Morning</h3>
+            <p class="step__desc">Choose a date and we hold a private slot — a botanist plans the route around what is actually in bloom that week.</p>
+            <a class="step__link" href="#destinations">
+              <span>Learn More</span>
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </article>
+
+          <article class="step reveal">
+            <span class="step__icon" aria-hidden="true">
+              <svg class="icon"><use href="#i-card"/></svg>
+            </span>
+            <h3 class="step__title">Pay &amp; Start Journey</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         05 · PROMO / Unleash Wanderlust
+         左图右文 + 底部 20% OFF / CTA 同行，整体共用一套栅格。
     ============================================================ -->
     <section class="promo" id="visit" aria-labelledby="promo-title">
-      <div class="promo__media" aria-hidden="true">
-        <img src="assets/img/flower-camellia-rain.jpg" alt="" width="1593" height="1080" loading="lazy" decoding="async">
-      </div>
-      <div class="promo__veil" aria-hidden="true"></div>
-      <div class="container promo__inner">
-        <p class="eyebrow eyebrow--light reveal">05 — The invitation</p>
-        <h2 class="display display--light promo__title reveal" id="promo-title">Unleash wanderlust<br><em>with Petalwings.</em></h2>
-        <p class="promo__lede reveal">The autumn camellia edition is open: three gardens, two botanists, one very slow weekend.</p>
-        <div class="promo__actions reveal">
-          <a class="btn btn--cream" href="#signup">
-            <span>Reserve your morning</span>
+      <div class="container">
+        <div class="promo__grid">
+          <figure class="promo__media reveal">
+            <img src="assets/img/flower-white-silk.jpg" alt="A translucent white flower glowing softly against black." width="1080" height="1186" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="promo__content reveal">
+            <div class="promo__head">
+              <h2 class="promo__title" id="promo-title">Unleash Wanderlust With Petalwings</h2>
+              <p class="promo__aside">Slow mornings, rare cultivars, and gardens most visitors never find.</p>
+            </div>
+            <p class="promo__text">Every journey is designed around light, weather, and the exact week a garden opens — then we get out of the way.</p>
+          </div>
+        </div>
+
+        <div class="promo__bar">
+          <div class="offer reveal">
+            <p class="offer__discount">20% OFF</p>
+            <p class="offer__meta">Early bird · 28 September, 2026</p>
+          </div>
+          <a class="promo__cta reveal" href="#destinations">
+            <span>Book A Trip Now</span>
             <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
-          <a class="btn btn--ghost-light" href="#archive"><span>See the archive</span></a>
         </div>
-        <p class="promo__note reveal"><span>Next departures</span> 24 Oct · 07 Nov · 05 Dec</p>
       </div>
     </section>
 
-    <!-- ============================================================
-         07 · SIGNUP / 订阅表单
-    ============================================================ -->
-    <section class="section signup" id="signup" aria-labelledby="signup-title">
-      <div class="container signup__grid">
-        <div class="signup__copy">
-          <p class="eyebrow reveal">06 — Stay in bloom</p>
-          <h2 class="display reveal" id="signup-title">One letter,<br><em>once a season.</em></h2>
-          <p class="signup__lede reveal">Openings, field notes and a few photographs we could not keep to ourselves. Written slowly, sent rarely.</p>
-          <ul class="signup__perks reveal">
-            <li>Early access to seasonal openings</li>
-            <li>One short letter per season</li>
-            <li>No noise — unsubscribe in one click</li>
-          </ul>
-        </div>
-
-        <form class="signup__form reveal" novalidate data-signup>
-          <div class="signup__fields" data-signup-fields>
-            <label class="field" for="signup-email">
-              <span class="field__label">Email address</span>
-              <input class="field__input" id="signup-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-describedby="signup-msg">
-            </label>
-            <button class="btn btn--primary signup__submit" type="submit">Join the bloom list</button>
-            <p class="form-msg" id="signup-msg" role="status" aria-live="polite"></p>
-          </div>
-
-          <div class="signup__done" data-signup-done tabindex="-1" hidden>
-            <span class="signup__check" aria-hidden="true">
-              <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
-            </span>
-            <div>
-              <p class="signup__done-title">You’re on the list.</p>
-              <p class="signup__done-text">We’ll write to <strong data-signup-email>you</strong> when the next season opens.</p>
-            </div>
-          </div>
-
-          <p class="signup__fineprint">By subscribing you agree to our quiet-privacy policy. We never share your address.</p>
-        </form>
-      </div>
-    </section>
   </main>
 
   <!-- ============================================================
-       08 · FOOTER
+       06 · FOOTER（参考图没有页脚，这里补一个轻量版把页面收住）
   ============================================================ -->
-  <footer class="footer">
-    <div class="container footer__top">
-      <div class="footer__brand">
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer__top">
         <a class="brand brand--footer" href="#top" aria-label="Petalwings — back to top">
           <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-flower"/></svg>
-          <span class="brand__text">
-            <span class="brand__name">Petalwings</span>
-            <span class="brand__tag">Botanical journeys</span>
-          </span>
+          <span class="brand__name">Petalwings</span>
         </a>
-        <p class="footer__desc">Flower-viewing journeys for people who like to look slowly. Kyoto · Hangzhou · Hokkaido.</p>
-        <p class="footer__hanami">一期一会 <span>— one encounter, once in a lifetime</span></p>
-      </div>
-
-      <div class="footer__nav">
-        <nav aria-label="Explore">
-          <h3>Explore</h3>
-          <a href="#collections">Collections</a>
-          <a href="#experience">The experience</a>
-          <a href="#journey">How it works</a>
-          <a href="#archive">Archive</a>
-        </nav>
-        <nav aria-label="Studio">
-          <h3>Studio</h3>
-          <a href="#experience">Our story</a>
-          <a href="#experience">The botanists</a>
-          <a href="#signup">Journal</a>
+        <nav class="footer__nav" aria-label="Footer">
+          <a href="#destinations">Tours</a>
+          <a href="#journey">Journey</a>
+          <a href="#visit">Offer</a>
           <a href="mailto:hello@petalwings.studio">Contact</a>
         </nav>
-        <nav aria-label="Visit">
-          <h3>Visit</h3>
-          <a href="#visit">Book a visit</a>
-          <a href="#signup">Gift a morning</a>
-          <a href="#archive">Press kit</a>
-          <a href="#signup">FAQ</a>
-        </nav>
+        <div class="footer__socials">
+          <a class="social-dot" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg>
+          </a>
+          <a class="social-dot" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+          </a>
+          <a class="social-dot" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© <span data-year>2026</span> Petalwings Studio. All flowers photographed in situ.</p>
+        <p class="footer__places">Kyoto · Hangzhou · Hokkaido</p>
+        <button class="back-top" type="button" aria-label="Back to top" data-back-top>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+        </button>
       </div>
     </div>
-
-    <div class="container footer__bottom">
-      <p>© <span data-year>2026</span> Petalwings Studio. All flowers photographed in situ.</p>
-      <div class="footer__socials">
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer">Pinterest</a>
-        <a href="mailto:hello@petalwings.studio">WeChat</a>
-      </div>
-      <button class="back-top" type="button" aria-label="Back to top" data-back-top>
-        <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg>
-      </button>
-    </div>
-
-    <div class="footer__word" aria-hidden="true">PETALWINGS</div>
   </footer>
 
   <!-- ============================================================
-       09 · LIGHTBOX
-       hidden 属性负责“关”，.is-open 负责透明度过渡；
-       JS 里还做了焦点陷阱、ESC/方向键、滚动锁和相邻图预加载。
+       07 · LIGHTBOX（目的地卡点击放大）
+       hidden 负责关闭、.is-open 负责透明度过渡；JS 里带焦点陷阱和键盘操作。
   ============================================================ -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true" hidden>
     <div class="lightbox__backdrop" data-lightbox-close></div>
-
     <figure class="lightbox__figure">
-      <img class="lightbox__img" data-lightbox-img src="" alt="">
+      <img class="lightbox__img" data-lightbox-img src="" alt="" width="1080" height="1080">
       <figcaption class="lightbox__caption">
         <span class="lightbox__count" data-lightbox-count></span>
         <span class="lightbox__text" data-lightbox-text></span>
       </figcaption>
     </figure>
-
-    <button class="lightbox__close circle-btn" type="button" aria-label="Close viewer" data-lightbox-close>
+    <button class="lightbox__close icon-btn" type="button" aria-label="Close viewer" data-lightbox-close>
       <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
     </button>
-    <button class="lightbox__nav lightbox__nav--prev circle-btn" type="button" aria-label="Previous image" data-lightbox-prev>
+    <button class="lightbox__nav lightbox__nav--prev icon-btn" type="button" aria-label="Previous image" data-lightbox-prev>
       <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>
     </button>
-    <button class="lightbox__nav lightbox__nav--next circle-btn" type="button" aria-label="Next image" data-lightbox-next>
+    <button class="lightbox__nav lightbox__nav--next icon-btn" type="button" aria-label="Next image" data-lightbox-next>
       <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
     </button>
   </div>

@@ -166,8 +166,8 @@ export async function launchBrowser() {
       mobile,
       screenWidth: width,
       screenHeight: height,
+      screenOrientation: { type: 'portraitPrimary', angle: 0 },
     });
-    await send('Emulation.setVisibleSize', { width, height }).catch(() => {});
   }
 
   async function navigate(url) {
